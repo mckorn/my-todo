@@ -1,18 +1,46 @@
 <!DOCTYPE html>
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Timed To-Do's</title>
   <link rel="stylesheet" href="styles.css">
-</head>>
+  <script src="app.js" defer></script>
+  <title>Timed To-Do's</title>
+</head>
 <body>
-  <div id="app">
+  <section class="todo">
     <h1>To-Do List</h1>
-    <input type="text" id="task-input" placeholder="Enter a task">
-    <input type="number" id="timer-input" placeholder="Timer">
-    <button onclick="addTask()">Add Task</button>
-    <ul id="task-list"></ul>
-  </div>
-  <script src="app.js"></script>
+    <div class="input">
+      <input 
+        type="text" 
+        class="input-field" 
+        id="taskInput" 
+        placeholder="Enter a task"
+      />
+      <input 
+        type="number" 
+        class="input-field" 
+        id="timerInput" 
+        placeholder="Enter a countdown"
+      />
+    <button class="btn">Add Task</button>
+    <button id="deleteBttn">Delete All</button>
+    </div>
+    <ul class="scroll">
+      <li class="task-list" id="taskList"></li>
+    </ul>
+    <div>
+      <hr class="counter"/>
+      <div class="counter-container">
+        <p><span>0</span> total items</p>
+      </div>
+    </div>
+    <footer>
+      <div class="footer">
+        <p class="made-by">made by me&lt;3</p>
+        
+      </div>
+    </footer>
+  </section>
 </body>
 </html>
