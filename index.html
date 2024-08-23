@@ -8,37 +8,46 @@
   <title>Timed To-Do's</title>
 </head>
 <body>
-  <section class="todo">
+  <section>
     <h1>To-Do List</h1>
     <div class="input">
-      <input 
-        type="text" 
-        class="input-field" 
-        id="taskInput" 
-        placeholder="Enter a task"
-      />
-      <input 
-        type="number" 
-        class="input-field" 
-        id="timerInput" 
-        placeholder="Enter a countdown"
-      />
-    <button class="btn">Add Task</button>
+        <div class="input-section">
+            <input 
+            type="text" 
+            class="input-field" 
+            id="taskInput" 
+            placeholder="Enter a task"
+          />
+          <input 
+            type="number" 
+            class="input-field" 
+            id="timerInput" 
+            placeholder="Enter a countdown"
+          />
+        </div>
+
+      <div class="button-section">
+        <button class="btn">Add Task</button>
     <button id="deleteBttn">Delete All</button>
+      </div>
     </div>
-    <ul class="scroll">
-      <li class="task-list" id="taskList"></li>
-    </ul>
+    <div>
+        <ul>
+          <li id="taskList"></li>
+        </ul>
+    </div>
     <div>
       <hr class="counter"/>
       <div class="counter-container">
-        <p><span>0</span> total items</p>
+        <p><span id="count"></span> total items</p>
       </div>
+    <div>
+        <p class="display">Current Activity: <span id="selected-item"></span></p>
+    </div>
     </div>
     <footer>
       <div class="footer">
         <p class="made-by">made by me&lt;3</p>
-        
       </div>
     </footer>
   </section>
