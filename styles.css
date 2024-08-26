@@ -1,3 +1,9 @@
+/* 
+# {} is used for id
+. {} is used for class (can be shared multiple times)
+{} is used for tag 
+*/
+
 #count {
     font-size: 1.5rem;
     font-weight: bold;
@@ -13,6 +19,7 @@
 
 body {
   font-family: Arial, sans-serif;
+  font-size: 20px;
 }
 
 footer {
@@ -29,9 +36,8 @@ ul {
     list-style-type: none;
 }
 
-li {
-    border: 1px solid #ccc;
-    background-color: beige;
+.dl {
+    list-style-type: none;
 }
 
 .task {
@@ -42,12 +48,6 @@ li {
 .time {
     flex: 1;
     background-color: rgb(130, 160, 95);
-}
-
-.todo-container {
-    display: flex;
-    flex-direction: row;
-    padding: 10px;
 }
 
 .input {
@@ -80,8 +80,36 @@ li {
     flex-direction: row;
     justify-content: space-between;
     padding: 5px;
+    margin: 10px;
     background-color: rgb(240, 240, 169);
     height: 100px;
+}
+
+.lists {
+    display: flex;
+    margin: 10px;
+    padding: 10px;
+    background-color: rgb(169, 238, 240);
+}
+
+.task-list {
+    display: flex;
+    flex: 1;
+    padding: 5px;
+    background-color: rgb(218, 130, 152);
+}
+
+.todo-container {
+    display: flex;
+    flex: 1; 
+    padding: 10px;
+    background-color: rgb(17, 20, 13);
+}
+
+.done-list {
+    display: flex;
+    flex: 1;
+    background-color: rgb(161, 130, 218);
 }
 
 /* input[type="checkbox"] {

@@ -2,11 +2,13 @@
 
 // todo = to the local storage, if that dosen't exist them make an empty array
 let todo = JSON.parse(localStorage.getItem("todo")) || [];
+let done = JSON.parse(localStorage.getItem("done")) || [];
 
 const todoInput = document.getElementById('taskInput');
 const timerInput = document.getElementById('timerInput');
 const todoCount = document.getElementById('todoCount');
 const todoList = document.getElementById('taskList');
+const doneList = document.getElementById('completedList');
 
 const addButton = document.querySelector(".btn");
 const deleteButton = document.getElementById("deleteBttn")
@@ -21,58 +23,77 @@ document.addEventListener("DOMContentLoaded", function() { // when something hap
     }
   });
   deleteButton.addEventListener("click", deleteAllTasks);
-  displayTasks();
+    displayTasks();
+    displayCompletedTasks();
 });
 
+// when a checkbox is clicked it will run the time and then add it to the done list
 document.addEventListener('change', function (event) {
     if (event.target.classList.contains('todo-checkbox')) {
+        const allCheckboxes = document.querySelectorAll('.todo-checkbox');
         const checkedContent = document.getElementById("selected-item");
-        const checkedTask = event.target.parentElement.querySelector('.task').innerText;
-        const checkedTime = event.target.parentElement.querySelector('.time').innerText;
         if (event.target.checked) {
-            checkedContent.innerText = checkedTask + " " + checkedTime;
-            displayTime(checkedTime, checkedContent);
+            const index = event.target.id.split("-")[1];
+            const element = todo[index]; 
+            // disable all other checkboxes to prevent overlap
+            allCheckboxes.forEach(checkbox => {
+                if (checkbox !== event.target) {
+                    checkbox.disabled = true;
+                }
+            });
+            checkedContent.innerText = element.task + " " + element.time;
+            setTimeout(() => {
+                displayTime(element.time, checkedContent, () => {
+                    completeTask(element.task, element.time, index);
+                });
+                // Call any other functions or perform additional actions here
+            }, 1000); // 1000 milliseconds = 1 second
         } else {
             checkedContent.textContent = " ";
+            allCheckboxes.forEach(checkbox => {
+                checkbox.disabled = false;
+            });
         }
     }
 });
 
-function displayTime(time, display) {
-    let timer = time.split(" ")[0];
-    console.log(timer);
-    
+function displayTime(timer, display, callback) {
+
     let countDown = setInterval(function () {
-        timer--;
         minutes = parseInt(timer / 60, 10);
         seconds = parseInt(timer % 60, 10);
 
         minutes = minutes < 10 ? "0" + minutes : minutes;
         seconds = seconds < 10 ? "0" + seconds : seconds;
 
-        display.textContent = timer + " : " + "00";
-        if (timer === 0) {
+        display.textContent = minutes + " : " + seconds;
+        if (timer < 0) {
             clearInterval(countDown);
-            display.textContent = " ";
+            display.textContent = "all done!";
+            if (callback) {
+                callback();
+            }
             // or reset the timer with
             // timer = time
         }  
+        timer--;
     }, 1000);
+    return true;
 }
 
 function addTask() {
   // const also means you can't access the values outside of this function
-  const task = taskInput.value.trim();
+  const tasker = taskInput.value.trim();
   const timer = parseInt(timerInput.value);
 
-  if (task !== "" && !(isNaN(timer)) ) {
+  if (tasker !== "" && !(isNaN(timer)) ) {
     todo.push({ // want to use it as an object (so we can include components)
-      text: task, 
+      task: tasker, 
       time: timer,
       disabled: false,
       // we have just randomly created these variable values
     });
-    saveToLocalStorage();
+    saveToLocalStorage("todo");
     // then clear the text after you press enter
     todoInput.value = "";
     timerInput.value = "";
@@ -88,9 +109,29 @@ function addTask() {
   // }
 }
 
+
+function completeTask(task, time, element) { 
+    // TODO allow users to save the amount of time it actually took them (instead of the expected time)
+    const finishedTask = document.createElement("li");
+    finishedTask.innerText = task + " " + time;
+    done.push({ // want to use it as an object (so we can include components)
+        task: task, 
+        time: time,
+    });
+
+    saveToLocalStorage("done");
+
+    // remove the task element from the current list
+    todo.splice(element, 1);
+    saveToLocalStorage("todo");
+
+    displayCompletedTasks();
+    displayTasks();
+}
+
 function deleteAllTasks() {
     todo = []; // Clear the todo array
-    saveToLocalStorage(); // Update local storage with empty array
+    saveToLocalStorage("todo"); // Update local storage with empty array
     displayTasks(); // Update the UI to reflect the changes
 }
 
@@ -106,34 +147,57 @@ function displayTasks() {
         <input type="checkbox" class="todo-checkbox" 
         id="input-${index}" 
         ${item.disabled ? "checked" : ""}>
-      <span id="todo-${index}" class="task"
-         onclick="editTask(${index})">${item.text}
+      <span id="todo-${index}" class="task">${item.task}
       </span>
-      <span class ="time">${item.time} minutes</span>
+      <span class ="time">${item.time} seconds</span>
       </div>
     `
-    // p.querySelector(".todo-checkbox").addEventListener
-    // ("change", () => {
-    //   toggleTask(index);
-    // });
       todoList.appendChild(p);
   });
   updateTaskCount();
 }
 
+function displayCompletedTasks() {
+    doneList.innerHTML = "";
+    done.forEach((item, index) => {
+      const p = document.createElement("p");
+      p.innerHTML = `
+        <div class="todo-container">
+        <span id="done-${index}" class="task">${item.task}
+        </span>
+        </div>
+      `
+      doneList.appendChild(p);
+    });
+    updateTaskCount();
+  }
+
+// function displayCompletedTasks() {
+//     // doneList.innerHTML = "";
+//     const complete = document.getElementById("completedList");
+//     complete.innerHTML = ""; // clear the list to give the most up to date list
+
+//     done.forEach((item, index) => {
+//         const li = document.createElement("li");
+//         li.textContent = `${item.text} (${item.time})`;
+//         completedList.appendChild(li);
+//     });
+//     updateTaskCount();
+// }
+
 function toggleTask(index) {
   todo[index].disabled = !todo[index].disabled;
-  saveToLocalStorage();
+  saveToLocalStorage("todo");
   displayTasks();
 }
 
 function updateTaskCount() {
-    // todoCount.innerText = todo.filter(item => !item.disabled).length;
+    //todoCount.innerText = todo.filter(item => !item.disabled).length;
     const taskCount = document.getElementById("count");
     taskCount.innerText = todo.length;
 }
 
-function saveToLocalStorage() {
-  // this item is going to be called a todo
-  localStorage.setItem("todo", JSON.stringify(todo));
+function saveToLocalStorage(fileName) {
+  // this item is going to be called a todo or done
+  localStorage.setItem(fileName, JSON.stringify(fileName === "todo" ? todo : done));
 }

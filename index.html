@@ -14,27 +14,31 @@
         <div class="input-section">
             <input 
             type="text" 
-            class="input-field" 
             id="taskInput" 
             placeholder="Enter a task"
           />
           <input 
             type="number" 
-            class="input-field" 
             id="timerInput" 
-            placeholder="Enter a countdown"
+            placeholder="Enter a countdown (in seconds)"
           />
         </div>
-
-      <div class="button-section">
-        <button class="btn">Add Task</button>
-    <button id="deleteBttn">Delete All</button>
-      </div>
+        <div class="button-section">
+            <button class="btn">Add Task</button>
+            <button id="deleteBttn">Delete All</button>
+        </div>
     </div>
-    <div>
-        <ul>
-          <li id="taskList"></li>
-        </ul>
+    <div class="lists">
+        <div class="task-list">
+            <ul>
+              <li id="taskList"></li>
+            </ul>
+        </div>
+        <div class="done-list">
+            <ol>
+              <li id="completedList" class="dl"></li>
+            </ol>
+        </div>
     </div>
     <div>
       <hr class="counter"/>
