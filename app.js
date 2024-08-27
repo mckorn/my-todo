@@ -15,7 +15,20 @@ const deleteButton = document.getElementById("deleteBttn")
 
 // initialize
 document.addEventListener("DOMContentLoaded", function() { // when something happens the function will run
-  addButton.addEventListener("click", addTask);
+    const setCountdownButton = document.getElementById('setCountdown');
+  const popup = document.getElementById('popup');
+    const closeButton = document.querySelector('.close');
+    
+    setCountdownButton.addEventListener('click', function() {
+        popup.style.display = 'block'; // Show the popup
+      });
+    
+      closeButton.addEventListener('click', function() {
+        popup.style.display = 'none'; // Hide the popup
+      });
+    
+    addButton.addEventListener("click", addTask);
+
   todoInput.addEventListener('keydown', function (event) {
     if (event.key === "Enter") {
       event.preventDefault(); // basically means, don't refresh the page (or empty the input or send to another page)
@@ -201,3 +214,27 @@ function saveToLocalStorage(fileName) {
   // this item is going to be called a todo or done
   localStorage.setItem(fileName, JSON.stringify(fileName === "todo" ? todo : done));
 }
+
+document.getElementById("countdown").addEventListener("click", function() {
+    // Show the popup
+    document.getElementById("popup").style.display = "block";
+});
+
+document.querySelector(".close").addEventListener("click", function() {
+    // Hide the popup
+    document.getElementById("popup").style.display = "none";
+});
+
+document.getElementById("setTimer").addEventListener("click", function() {
+    // Get the values from the input fields
+    let hours = document.getElementById("hours").value || 0;
+    let minutes = document.getElementById("minutes").value || 0;
+    let seconds = document.getElementById("seconds").value || 0;
+
+    // Format the time and set it to the input box
+    let formattedTime = `${hours.padStart(2, '0')}:${minutes.padStart(2, '0')}:${seconds.padStart(2, '0')}`;
+    document.getElementById("countdown").value = formattedTime;
+
+    // Hide the popup
+    document.getElementById("popup").style.display = "none";
+});
