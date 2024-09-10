@@ -37,7 +37,8 @@ ul {
     list-style-type: none;
 }
 
-.dl {
+ol {    
+    padding: 0;
     list-style-type: none;
 }
 
@@ -50,12 +51,21 @@ ul {
 
 .task {
     flex: 1;
-    background-color: cadetblue;
+    /* background-color: cadetblue; */
 }
 
 .time {
     flex: 1;
-    background-color: rgb(130, 160, 95);
+    display: flex;
+    justify-content: end;
+
+    /* background-color: rgb(130, 160, 95); */
+}
+
+.list-headers {
+    padding-left: 10px;
+    font-size: 20px;
+    font-weight: 600;
 }
 
 .input {
@@ -105,13 +115,6 @@ ul {
     flex: 1;
     padding: 5px;
     background-color: rgb(218, 130, 152);
-}
-
-.todo-container {
-    display: flex;
-    flex: 1; 
-    padding: 10px;
-    background-color: rgb(17, 20, 13);
 }
 
 .done-list {
@@ -203,6 +206,82 @@ button:hover {
     background-color: #015ec2;
 }
 
+.todo-container {
+    display: flex;
+    flex: 1; 
+    padding: 10px;
+    /* background-color: rgb(17, 20, 13); */
+}
+
+.new-design {
+    display: flex;
+    padding: 5px;
+    margin: 10px;
+    background-color: rgb(197, 138, 138);
+}
+
+.left {
+    flex: 4;
+    padding: 5px;
+    background-color: rgb(240, 240, 169);
+
+}
+
+.right {
+    flex: 3;
+    padding: 5px;
+    background-color: rgb(169, 240, 190)
+}
+
+.left-content {
+    display: flex;
+    flex-direction: column;
+    padding: 5px;
+    background-color: rgb(255, 255, 255);
+}
+
+.right-content {
+    display: flex;
+    flex-direction: column;
+    padding: 5px;
+    background-color: rgb(255, 255, 255);
+}
+
+.clock {
+    border: none;
+    border-radius: 25px;
+    height: 100px;
+    align-content: center;
+    background-color: brown;
+    text-align: center;
+}
+
+.date {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    flex: 1;
+    background-color: rgb(169, 238, 240);
+}
+
+.to-do-list {
+    flex: 3;
+    border-radius: 10px;
+    background-color: rgb(218, 130, 152);
+    margin: 10px;
+}
+
+.to-done-list {
+    border-radius: 10px;
+    background-color: rgb(161, 130, 218);
+    margin: 10px;
+}
+
+.counter {
+    border: 0.06rem solid var(--gray-light);
+} 
+
+
 /* input[type="checkbox"] {
     appearance: none;
     -webkit-appearance: none;
@@ -225,8 +304,4 @@ button:hover {
  .disabled {
   display: flex;
   text-decoration: line-through;
-}
-
-.counter {
-  border: 0.06rem solid var(--gray-light);
-}  
+} 

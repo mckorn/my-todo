@@ -157,10 +157,10 @@ function displayTasks() {
     // if the item is disabled then we make it checked
     p.innerHTML = `
       <div class="todo-container">
-        <input type="checkbox" class="todo-checkbox" 
+        <input type="checkbox"
         id="input-${index}" 
         ${item.disabled ? "checked" : ""}>
-      <span id="todo-${index}" class="task">${item.task}
+      <span id="todo-${index}" class="task">&nbsp${item.task}
       </span>
       <span class ="time">${item.time} seconds</span>
       </div>
@@ -176,6 +176,7 @@ function displayCompletedTasks() {
       const p = document.createElement("p");
       p.innerHTML = `
         <div class="todo-container">
+        <span style="color: white;"> ${index + 1}. &nbsp</span>
         <span id="done-${index}" class="task">${item.task}
         </span>
         </div>
