@@ -10,6 +10,13 @@
     padding: 20px;
 }
 
+.scrollable-list {
+    max-height: 300px;
+    overflow-y: auto;
+    border: 1px solid #ccc;
+    padding: 10px;
+  }
+
 body {
     font-family: "Grandstander";
     background-color: #f0f0f0;
@@ -152,6 +159,7 @@ ol {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    padding: 5px;
 }
 
 /* I dont think this does anything
@@ -175,11 +183,11 @@ Change border color on focus
     cursor: pointer;
 }
 
-#setCountdown {
-    background-color: #4CAF50; /* Green */
+#openPopup {
+    background-color: #8eca90; /* Green */
     border: none;
     color: white;
-    padding: 15px 32px;
+    padding: 10px 20px;
     text-align: center;
     text-decoration: none;
     display: inline-block;
@@ -275,6 +283,7 @@ button:hover {
     border-radius: 10px;
     background-color: rgb(161, 130, 218);
     margin: 10px;
+    overflow-y: auto;
 }
 
 .counter {
