@@ -5,22 +5,8 @@
 */
 
 #app {
-    max-width: 600px;
-    margin: 0 auto;
-    padding: 20px;
-}
-
-.scrollable-list {
-    max-height: 300px;
-    overflow-y: auto;
-    border: 1px solid #ccc;
-    padding: 10px;
-  }
-
-body {
-    font-family: "Grandstander";
-    background-color: #f0f0f0;
-    padding: 10px;
+  max-width: 600px;
+  margin: 0 auto;
 }
 
 .grandstander-font {
@@ -29,288 +15,243 @@ body {
   font-weight: 100;
   font-style: normal;
 }
-  
+
+body {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  min-height: 100vh;
+  font-family: "Grandstander";
+  background-image: url("assets/background-sky.png");
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  background-position: center;
+  position: relative;
+}
+
+header {
+  height: 17vh;
+  display: flex;
+}
+
 footer {
-    position: absolute;
-    margin-right: 20px;
-    margin-top: 10px;
-    bottom: 0;
-    right: 0;
-    background-color: burlywood;
+  padding: 20px 0;
+  text-align: center;
+  margin-top: auto;
 }
 
-ul {    
-    padding: 0;
-    list-style-type: none;
+main {
+  flex: 1;
+  display: flex;
+  align-items: stretch;
+  padding: 20px 0;
 }
 
-ol {    
-    padding: 0;
-    list-style-type: none;
+.content-row {
+  display: flex;
+  margin: 20px auto;
+  width: 100%;
+  height: 100%;
+  max-width: 1500px;
 }
 
-#count {
-    font-size: 1.5rem;
-    font-weight: bold;
-    color: #333;
-    margin-right: 10px;
+.left-section {
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  width: 50%;
+  padding-right: 100px;
 }
 
-.task {
-    flex: 1;
-    /* background-color: cadetblue; */
+.middle-section {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 20px;
+  margin-top: 200px;
+  width: 90%;
 }
 
-.time {
-    flex: 1;
-    display: flex;
-    justify-content: end;
-
-    /* background-color: rgb(130, 160, 95); */
+.right-section {
+  width: 25%;
 }
 
-.list-headers {
-    padding-left: 10px;
-    font-size: 20px;
-    font-weight: 600;
+.top-row {
+  background-color: burlywood;
+  display: flex;
+  width: 100%;
+  align-items: stretch;
+  margin-bottom: 15px;
+  border-radius: 10px;
+  padding: 10px;
 }
 
-.input {
-   display: flex;
-   flex-direction: row;
-   justify-content: space-between;
-   padding: 5px; 
-   background-color: aliceblue;
-   border: 1px solid #ccc;
+.top-left {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  width: 50%;
 }
 
-.input-section {
-    display: flex;
-    justify-content: space-around;
-    flex: 3;
-    padding: 5px;
-    background-color: rgb(197, 138, 138);
+.top-right {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  width: 50%;
 }
 
-.button-section {
-    display: flex;
-    justify-content: space-around;
-    flex: 2;
-    padding: 5px;
-    background-color: rgb(150, 150, 231);
+.bottom-row {
+  background-color: #b7d5f2;
+  display: flex;
+  margin: 10px 0;
+  width: 100%;
+  align-items: stretch;
+  height: 200px;
 }
 
-.display {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    padding: 5px;
-    margin: 10px;
-    background-color: rgb(240, 240, 169);
-    height: 100px;
+.list-container {
+  flex: 1;
+  overflow-y: auto;
 }
 
-.lists {
-    display: flex;
-    margin: 10px;
-    padding: 10px;
-    background-color: rgb(169, 238, 240);
+.date-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+  width: 100%;
 }
 
-.task-list {
-    display: flex;
-    flex: 1;
-    padding: 5px;
-    background-color: rgb(218, 130, 152);
+.clock-row {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 10px;
+  width: 100%;
 }
 
-.done-list {
-    display: flex;
-    flex: 1;
-    background-color: rgb(161, 130, 218);
+#openPopup {
+  background-color: #8eca90;
+  border: none;
+  color: white;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+  border-radius: 4px;
 }
 
-.container {
-    margin-top: 50px;
+#finishTask {
+  background-color: plum;
+  border: none;
+  color: white;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+  border-radius: 4px;
 }
 
 .popup {
-    display: none; /* Hidden by default */
-    position: fixed;
-    z-index: 1;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    overflow: auto;
-    background-color: rgba(0, 0, 0, 0.4); /* Black with opacity */
+  display: none;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.4);
 }
 
 .popup-content {
-    background-color: #fff;
-    margin: 15% auto;
-    padding: 20px;
-    border: 1px solid #888;
-    width: 400px;
-    text-align: center;
+  background-color: #fff;
+  margin: 15% auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 400px;
+  text-align: center;
 }
 
 .popup-input {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    padding: 5px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 5px;
 }
 
-/* I dont think this does anything
-Change border color on focus
-.popup-content input[type="number"]:focus {
-    border-color: #934196;
-} */
-
 .close {
-    color: #aaa;
-    float: right;
-    font-size: 28px;
-    font-weight: bold;
-    cursor: pointer;
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
 }
 
 .close:hover,
 .close:focus {
-    color: black;
-    text-decoration: none;
-    cursor: pointer;
-}
-
-#openPopup {
-    background-color: #8eca90; /* Green */
-    border: none;
-    color: white;
-    padding: 10px 20px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    margin: 4px 2px;
-    cursor: pointer;
-    border-radius: 4px;
-  }
-
-button {
-    background-color: #007bff;
-    /* background-color: #5f3a7c; */
-    color: white;
-    padding: 10px 20px;
-    font-size: 16px;
-    cursor: pointer;
-    margin-top: 20px;
-    border: none;
-    border-radius: 15px;
-    transition: background-color 0.3s;
-}
-
-button:hover {
-    background-color: #015ec2;
-}
-
-.todo-container {
-    display: flex;
-    flex: 1; 
-    padding: 10px;
-    /* background-color: rgb(17, 20, 13); */
-}
-
-.new-design {
-    display: flex;
-    padding: 5px;
-    margin: 10px;
-    background-color: rgb(197, 138, 138);
-}
-
-.left {
-    flex: 4;
-    padding: 5px;
-    background-color: rgb(240, 240, 169);
-
-}
-
-.right {
-    flex: 3;
-    padding: 5px;
-    background-color: rgb(169, 240, 190)
-}
-
-.left-content {
-    display: flex;
-    flex-direction: column;
-    padding: 5px;
-    background-color: rgb(255, 255, 255);
-}
-
-.right-content {
-    display: flex;
-    flex-direction: column;
-    padding: 5px;
-    background-color: rgb(255, 255, 255);
-}
-
-.clock {
-    border: none;
-    border-radius: 25px;
-    height: 100px;
-    align-content: center;
-    background-color: brown;
-    text-align: center;
-}
-
-.date {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    flex: 1;
-    background-color: rgb(169, 238, 240);
-}
-
-.to-do-list {
-    flex: 3;
-    border-radius: 10px;
-    background-color: rgb(218, 130, 152);
-    margin: 10px;
-}
-
-.to-done-list {
-    border-radius: 10px;
-    background-color: rgb(161, 130, 218);
-    margin: 10px;
-    overflow-y: auto;
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
 }
 
 .counter {
-    border: 0.06rem solid var(--gray-light);
-} 
+  border: 0.06rem solid var(--gray-light);
+}
 
+#count {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #333;
+  margin-right: 10px;
+}
 
-/* input[type="checkbox"] {
-    appearance: none;
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    cursor: pointer;
-  }
-  
-  input[type="checkbox"]::before {
-    content: "\2713";
-    display: inline-block;
-    width: 2rem;
-    height: 2rem;
-    font-size: 1.7rem;
-    text-align: center;
-    border: 0.06rem solid var(--gray-border);
-    border-radius: 50%;
-    color: transparent;
-  }
+.list-wrapper {
+  flex: 1;
+  overflow-y: auto;
+}
 
- .disabled {
-  display: flex;
-  text-decoration: line-through;
-} 
+.list-headers {
+  padding-left: 10px;
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.scrollable-list {
+  max-height: 300px;
+  overflow-y: auto;
+  border: 1px solid #ccc;
+  padding: 10px;
+}
+
+.to-do-list {
+  flex: 1;
+  overflow-y: auto;
+  border-radius: 10px;
+  background-color: rgb(218, 130, 152);
+  margin: 10px;
+}
+
+.to-done-list {
+  flex: 1;
+  overflow-y: auto;
+  border-radius: 10px;
+  background-color: rgb(161, 130, 218);
+  margin: 10px;
+}
+
+ul {
+  padding: 0;
+  list-style-type: none;
+}
+
+ol {
+  padding: 0;
+  list-style-type: none;
+}

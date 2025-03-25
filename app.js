@@ -37,6 +37,40 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 });
 
+// TODO next is  make the name pop up in the current activity
+//when a checkbox is clicked it will run the time and then add it to the done list
+document.addEventListener("change", function (event) {
+  console.log("hit");
+  if (event.target.classList.contains(".todo-checkbox")) {
+    const allCheckboxes = document.querySelectorAll(".todo-checkbox");
+    const checkedContent = document.getElementById("selected-item");
+    if (event.target.checked) {
+      const index = event.target.id.split("-")[1];
+      const element = todo[index];
+      // disable all other checkboxes to prevent overlap
+      allCheckboxes.forEach((checkbox) => {
+        if (checkbox !== event.target) {
+          checkbox.disabled = true;
+        }
+      });
+      checkedContent.innerText = element.task + " " + element.time;
+      setTimeout(() => {
+        displayTime(element.time, checkedContent, () => {
+          completeTask(element.task, element.time, index);
+        });
+        // Call any other functions or perform additional actions here
+      }, 1000); // 1000 milliseconds = 1 second
+    } else {
+      checkedContent.textContent = " ";
+      allCheckboxes.forEach((checkbox) => {
+        checkbox.disabled = false;
+      });
+    }
+  } else {
+    console.log("not hit");
+  }
+});
+
 function addTask() {
   const taskText = taskInput.value.trim();
   const hours = parseInt(hoursInput.value) || 0;

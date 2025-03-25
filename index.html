@@ -13,231 +13,9 @@
       rel="stylesheet"
       href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
     />
-    <style>
-      /* Custom styles */
-      body {
-        display: flex;
-        flex-direction: column;
-        height: 100vh;
-        margin: 0;
-        font-family: "Grandstander";
-        background-color: #f0f0f0;
-      }
-
-      .grandstander-font {
-        font-family: "Grandstander";
-        font-optical-sizing: auto;
-        font-weight: 100;
-        font-style: normal;
-      }
-      header {
-        background-color: #f0f4c3;
-        padding: 20px 0;
-        text-align: center;
-      }
-      footer {
-        background-color: burlywood;
-        padding: 20px 0;
-        text-align: center;
-        margin-top: auto;
-      }
-      main {
-        flex: 1;
-        display: flex;
-        align-items: stretch;
-        padding: 20px 0;
-      }
-      .content-row {
-        display: flex;
-        max-width: 1000px;
-        margin: 0 auto;
-        width: 100%;
-        height: 100%;
-      }
-      .tower-section {
-        background-color: #b2ebf2;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        width: 25%;
-      }
-      .middle-section {
-        background-color: #ffffff;
-        padding: 20px;
-        margin-top: 0;
-        width: 50%;
-      }
-      .right-section {
-        background-color: #e0f7fa;
-        width: 25%;
-      }
-      .top-row {
-        display: flex;
-        width: 100%;
-        align-items: stretch;
-        margin-bottom: 20px;
-      }
-      .top-left {
-        display: flex;
-        flex-direction: column;
-        justify-content: flex-start;
-        align-items: flex-start;
-        width: 50%;
-      }
-      .top-right {
-        display: flex;
-        flex-direction: column;
-        justify-content: flex-start;
-        align-items: flex-end;
-        width: 50%;
-      }
-      .bottom-row {
-        display: flex;
-        width: 100%;
-        align-items: flex-end;
-        height: 200px;
-      }
-      .list-container {
-        flex: 1;
-        overflow-y: auto;
-      }
-      .date-row {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 10px;
-        width: 100%;
-      }
-      .clock-row {
-        display: flex;
-        justify-content: flex-end;
-        margin-bottom: 10px;
-        width: 100%;
-      }
-      .list-wrapper {
-        flex: 1;
-        overflow-y: auto;
-      }
-
-      #openPopup {
-        background-color: #8eca90; /* Green */
-        border: none;
-        color: white;
-        padding: 10px 20px;
-        text-align: center;
-        text-decoration: none;
-        display: inline-block;
-        font-size: 16px;
-        margin: 4px 2px;
-        cursor: pointer;
-        border-radius: 4px;
-      }
-
-      .popup {
-        display: none; /* Hidden by default */
-        position: fixed;
-        z-index: 1;
-        left: 0;
-        top: 0;
-        width: 100%;
-        height: 100%;
-        overflow: auto;
-        background-color: rgba(0, 0, 0, 0.4); /* Black with opacity */
-      }
-
-      .popup-content {
-        background-color: #fff;
-        margin: 15% auto;
-        padding: 20px;
-        border: 1px solid #888;
-        width: 400px;
-        text-align: center;
-      }
-
-      .popup-input {
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-        padding: 5px;
-      }
-      .close {
-        color: #aaa;
-        float: right;
-        font-size: 28px;
-        font-weight: bold;
-        cursor: pointer;
-      }
-
-      .close:hover,
-      .close:focus {
-        color: black;
-        text-decoration: none;
-        cursor: pointer;
-      }
-      .counter {
-        border: 0.06rem solid var(--gray-light);
-      }
-
-      #count {
-        font-size: 1.5rem;
-        font-weight: bold;
-        color: #333;
-        margin-right: 10px;
-      }
-
-      .list-headers {
-        padding-left: 10px;
-        font-size: 20px;
-        font-weight: 600;
-      }
-
-      .task-list {
-        display: flex;
-        flex: 1;
-        padding: 5px;
-        background-color: rgb(218, 130, 152);
-      }
-
-      .done-list {
-        display: flex;
-        flex: 1;
-        background-color: rgb(161, 130, 218);
-      }
-
-      .scrollable-list {
-        max-height: 300px;
-        overflow-y: auto;
-        border: 1px solid #ccc;
-        padding: 10px;
-      }
-
-      .to-do-list {
-        flex: 1;
-        overflow-y: auto;
-        border-radius: 10px;
-        background-color: rgb(218, 130, 152);
-        margin: 10px;
-      }
-
-      .to-done-list {
-        flex: 1;
-        border-radius: 10px;
-        background-color: rgb(161, 130, 218);
-        margin: 10px;
-        overflow-y: auto;
-      }
-      ul {
-        padding: 0;
-        list-style-type: none;
-      }
-
-      ol {
-        padding: 0;
-        list-style-type: none;
-      }
-    </style>
+    <link rel="stylesheet" href="styles.css" />
     <script src="app.js" defer></script>
-    <title>Timed To-Do's</title>
+    <title>=^._.^= Timed To-Do's =^._.^=</title>
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
       rel="stylesheet"
@@ -246,21 +24,14 @@
     />
   </head>
   <body>
-    <header>
-      <h1><3</h1>
-    </header>
+    <header></header>
     <main>
       <div class="content-row">
-        <div class="col-md-3 tower-section">
+        <div class="col-md-3 left-section">
           <img
             src="assets/stack-rbg.png"
             alt="Tower"
-            style="
-              width: 100%;
-              height: 75%;
-              object-fit: cover;
-              align-self: flex-end;
-            "
+            style="width: 100%; object-fit: cover; align-self: flex-end"
           />
         </div>
         <div class="col-md-6 middle-section">
@@ -281,20 +52,22 @@
             </div>
             <div class="top-right">
               <div class="clock-row">
-                <img
-                  src="assets/clock-rbg.png"
-                  alt="Clock"
-                  style="max-width: 150px"
-                />
+                <img src="assets/clock-rbg.png" alt="Clock" />
               </div>
               <div class="list-wrapper">
                 <div class="to-done-list">
                   <p class="list-headers">done list</p>
-                  <ol>
+                  <div class="scrollable-list">
                     <li id="completedList"></li>
-                  </ol>
+                  </div>
                 </div>
               </div>
+            </div>
+          </div>
+          <div>
+            <hr class="counter" />
+            <div class="counter-container">
+              <p><span id="count"></span> total items</p>
             </div>
           </div>
           <div class="bottom-row">
@@ -309,13 +82,9 @@
               <p>Current Activity: <span id="selected-item"></span></p>
             </div>
             <div class="col-md-4 text-center">
-              <button class="btn btn-primary">Finish Task</button>
-            </div>
-          </div>
-          <div>
-            <hr class="counter" />
-            <div class="counter-container">
-              <p><span id="count"></span> total items</p>
+              <button id="finishTask" class="btn btn-primary">
+                Finish Task
+              </button>
             </div>
           </div>
         </div>
