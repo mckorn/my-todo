@@ -1,0 +1,257 @@
+/* 
+# {} is used for id
+. {} is used for class (can be shared multiple times)
+{} is used for tag 
+*/
+
+#app {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.grandstander-font {
+  font-family: "Grandstander";
+  font-optical-sizing: auto;
+  font-weight: 100;
+  font-style: normal;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  min-height: 100vh;
+  font-family: "Grandstander";
+  background-image: url("assets/background-sky.png");
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  background-position: center;
+  position: relative;
+}
+
+header {
+  height: 17vh;
+  display: flex;
+}
+
+footer {
+  padding: 20px 0;
+  text-align: center;
+  margin-top: auto;
+}
+
+main {
+  flex: 1;
+  display: flex;
+  align-items: stretch;
+  padding: 20px 0;
+}
+
+.content-row {
+  display: flex;
+  margin: 20px auto;
+  width: 100%;
+  height: 100%;
+  max-width: 1500px;
+}
+
+.left-section {
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  width: 50%;
+  padding-right: 100px;
+}
+
+.middle-section {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 20px;
+  margin-top: 200px;
+  width: 90%;
+}
+
+.right-section {
+  width: 25%;
+}
+
+.top-row {
+  background-color: burlywood;
+  display: flex;
+  width: 100%;
+  align-items: stretch;
+  margin-bottom: 15px;
+  border-radius: 10px;
+  padding: 10px;
+}
+
+.top-left {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  width: 50%;
+}
+
+.top-right {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  width: 50%;
+}
+
+.bottom-row {
+  background-color: #b7d5f2;
+  display: flex;
+  margin: 10px 0;
+  width: 100%;
+  align-items: stretch;
+  height: 200px;
+}
+
+.list-container {
+  flex: 1;
+  overflow-y: auto;
+}
+
+.date-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+  width: 100%;
+}
+
+.clock-row {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 10px;
+  width: 100%;
+}
+
+#openPopup {
+  background-color: #8eca90;
+  border: none;
+  color: white;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+#finishTask {
+  background-color: plum;
+  border: none;
+  color: white;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.popup {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+.popup-content {
+  background-color: #fff;
+  margin: 15% auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 400px;
+  text-align: center;
+}
+
+.popup-input {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 5px;
+}
+
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.counter {
+  border: 0.06rem solid var(--gray-light);
+}
+
+#count {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #333;
+  margin-right: 10px;
+}
+
+.list-wrapper {
+  flex: 1;
+  overflow-y: auto;
+}
+
+.list-headers {
+  padding-left: 10px;
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.scrollable-list {
+  max-height: 300px;
+  overflow-y: auto;
+  border: 1px solid #ccc;
+  padding: 10px;
+}
+
+.to-do-list {
+  flex: 1;
+  overflow-y: auto;
+  border-radius: 10px;
+  background-color: rgb(218, 130, 152);
+  margin: 10px;
+}
+
+.to-done-list {
+  flex: 1;
+  overflow-y: auto;
+  border-radius: 10px;
+  background-color: rgb(161, 130, 218);
+  margin: 10px;
+}
+
+ul {
+  padding: 0;
+  list-style-type: none;
+}
+
+ol {
+  padding: 0;
+  list-style-type: none;
+}
