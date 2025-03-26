@@ -16,9 +16,17 @@ const hoursInput = document.getElementById("hours"); //new
 const minutesInput = document.getElementById("minutes"); //new
 const secondsInput = document.getElementById("seconds"); //new
 
+const date = document.getElementById("date");
+
 // initialize app
 document.addEventListener("DOMContentLoaded", function () {
   displayTasks(); // display any existing tasks
+
+  // display the current date
+  const currentDate = new Date();
+  const options = { weekday: "short", month: "long", day: "numeric" };
+  const formattedDate = currentDate.toLocaleDateString("en-US", options);
+  date.textContent = formattedDate;
 
   // open the popup when the add task button is clicked
   openPopupBtn.addEventListener("click", function () {
