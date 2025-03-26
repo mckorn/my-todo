@@ -10,7 +10,7 @@
 }
 
 .grandstander-font {
-  font-family: "Grandstander";
+  font-family: 'Grandstander';
   font-optical-sizing: auto;
   font-weight: 100;
   font-style: normal;
@@ -21,8 +21,8 @@ body {
   flex-direction: column;
   margin: 0;
   min-height: 100vh;
-  font-family: "Grandstander";
-  background-image: url("assets/background-sky.png");
+  font-family: 'Grandstander';
+  background-image: url('assets/background-sky.png');
   background-size: 100% 100%;
   background-repeat: no-repeat;
   background-position: center;
@@ -79,8 +79,11 @@ main {
 .top-row {
   background-color: burlywood;
   display: flex;
-  width: 100%;
+  justify-content: space-between;
   align-items: stretch;
+  gap: 20px;
+  width: 100%;
+
   margin-bottom: 15px;
   border-radius: 10px;
   padding: 10px;
@@ -212,10 +215,10 @@ main {
   margin-right: 10px;
 }
 
-.list-wrapper {
+/* .list-wrapper {
   flex: 1;
   overflow-y: auto;
-}
+} */
 
 .list-headers {
   padding-left: 10px;
@@ -227,26 +230,66 @@ main {
   max-height: 300px;
   overflow-y: auto;
   border: 1px solid #ccc;
+  /* background-color: #f9f9f9; */
+  border-radius: 8px;
   padding: 10px;
+  list-style-type: none; /* Remove default bullet points */
+  margin: 0;
 }
 
 .to-do-list {
-  flex: 1;
-  overflow-y: auto;
+  /* border: 1px solid #ccc;  */
   border-radius: 10px;
   background-color: rgb(218, 130, 152);
-  margin: 10px;
+  padding: 10px;
+
+  width: 300px;
+  min-height: 150px; /* Set a minimum height */
+  max-height: 300px; /* Optional: Limit the maximum height */
+  overflow-y: auto; /* Add a scrollbar if the content exceeds the height */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Optional: Add a subtle shadow */
 }
 
 .to-done-list {
-  flex: 1;
-  overflow-y: auto;
+  /* border: 1px solid #ccc; */
   border-radius: 10px;
   background-color: rgb(161, 130, 218);
-  margin: 10px;
+  padding: 10px;
+
+  width: 300px;
+  min-height: 150px; /* Set a minimum height */
+  max-height: 300px; /* Optional: Limit the maximum height */
+  overflow-y: auto; /* Add a scrollbar if the content exceeds the height */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Optional: Add a subtle shadow */
 }
 
-ul {
+.hidden {
+  display: none; /* Completely hide the element */
+}
+
+.todo-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  margin-bottom: 8px;
+  /* border: 1px solid #ddd;
+  border-radius: 5px; */
+  /* background-color: #fff; */
+}
+
+.completed-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  margin-bottom: 8px;
+  /* border: 1px solid #ddd;
+  border-radius: 5px; */
+  /* background-color: #e6ffe6; */
+}
+
+/* ul {
   padding: 0;
   list-style-type: none;
 }
@@ -254,4 +297,4 @@ ul {
 ol {
   padding: 0;
   list-style-type: none;
-}
+} */

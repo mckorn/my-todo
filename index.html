@@ -41,26 +41,18 @@
                 <div id="date" style="font-size: 20px; font-weight: bold"></div>
                 <button id="openPopup" class="btn btn-primary">+</button>
               </div>
-              <div class="list-wrapper">
-                <div class="to-do-list">
-                  <p class="list-headers">do list</p>
-                  <div class="scrollable-list">
-                    <ul id="taskList"></ul>
-                  </div>
-                </div>
+              <div class="to-do-list">
+                <p class="list-headers">do list</p>
+                <ul id="taskList" class="scrollable-list"></ul>
               </div>
             </div>
             <div class="top-right">
               <div class="clock-row">
                 <img src="assets/clock-rbg.png" alt="Clock" />
               </div>
-              <div class="list-wrapper">
-                <div class="to-done-list">
-                  <p class="list-headers">done list</p>
-                  <div class="scrollable-list">
-                    <li id="completedList"></li>
-                  </div>
-                </div>
+              <div class="to-done-list">
+                <p class="list-headers">done list</p>
+                <li id="completedList" class="scrollable-list"></li>
               </div>
             </div>
           </div>
@@ -79,7 +71,9 @@
               />
             </div>
             <div class="col-md-4 text-center">
-              <p>Current Activity: <span id="selected-item"></span></p>
+              <p style="font-weight: 600">
+                Current Activity: <span id="selected-item"></span>
+              </p>
             </div>
             <div class="col-md-4 text-center">
               <button id="finishTask" class="btn btn-primary">

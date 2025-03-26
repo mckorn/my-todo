@@ -1,81 +1,113 @@
 // Initialize the to-do list from local storage or create an empty array
-let todo = JSON.parse(localStorage.getItem("todo")) || [];
+let todo = JSON.parse(localStorage.getItem('todo')) || [];
+let done = JSON.parse(localStorage.getItem('done')) || [];
+
+let selectedTaskIndex = null;
 
 // DOM elements
-const todoList = document.getElementById("taskList");
-const timerInput = document.getElementById("timerInput");
-const addTaskButton = document.getElementById("addTask"); //new
-const taskCount = document.getElementById("count"); //new
+const todoList = document.getElementById('taskList');
+const completedList = document.getElementById('completedList');
+const timerInput = document.getElementById('timerInput');
+const addTaskButton = document.getElementById('addTask');
+const taskCount = document.getElementById('count');
 
-const openPopupBtn = document.getElementById("openPopup"); //new
-const popup = document.getElementById("popup"); //new
-const closePopupBtn = document.getElementById("closeBtn"); //new
-const addTaskBtn = document.getElementById("addTaskPopup"); //new
-const taskInput = document.getElementById("task"); // new
-const hoursInput = document.getElementById("hours"); //new
-const minutesInput = document.getElementById("minutes"); //new
-const secondsInput = document.getElementById("seconds"); //new
+const openPopupBtn = document.getElementById('openPopup');
+const popup = document.getElementById('popup');
+const closePopupBtn = document.getElementById('closeBtn');
+const addTaskBtn = document.getElementById('addTaskPopup');
+const taskInput = document.getElementById('task');
+const hoursInput = document.getElementById('hours');
+const minutesInput = document.getElementById('minutes');
+const secondsInput = document.getElementById('seconds');
 
-const date = document.getElementById("date");
+const finishTaskBtn = document.getElementById('finishTask');
+
+const date = document.getElementById('date');
 
 // initialize app
-document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener('DOMContentLoaded', function () {
   displayTasks(); // display any existing tasks
 
   // display the current date
   const currentDate = new Date();
-  const options = { weekday: "short", month: "long", day: "numeric" };
-  const formattedDate = currentDate.toLocaleDateString("en-US", options);
+  const options = { weekday: 'short', month: 'long', day: 'numeric' };
+  const formattedDate = currentDate.toLocaleDateString('en-US', options);
   date.textContent = formattedDate;
 
   // open the popup when the add task button is clicked
-  openPopupBtn.addEventListener("click", function () {
-    popup.style.display = "block";
+  openPopupBtn.addEventListener('click', function () {
+    popup.style.display = 'block';
   });
 
   // close the popup when the close button is clicked
-  closePopupBtn.addEventListener("click", function () {
-    popup.style.display = "none";
+  closePopupBtn.addEventListener('click', function () {
+    popup.style.display = 'none';
   });
 
   // add task from popup
-  addTaskBtn.addEventListener("click", function () {
+  addTaskBtn.addEventListener('click', function () {
     addTask();
-    popup.style.display = "none";
+    popup.style.display = 'none';
+  });
+
+  // complete task
+  finishTaskBtn.addEventListener('click', function () {
+    if (selectedTaskIndex !== null) {
+      completeTask(selectedTaskIndex);
+      selectedTaskIndex = null;
+      document.getElementById('selected-item').textContent = 'No task selected';
+    } else {
+      alert('No task selected');
+    }
   });
 });
 
 // TODO next is  make the name pop up in the current activity
 //when a checkbox is clicked it will run the time and then add it to the done list
-document.addEventListener("change", function (event) {
-  console.log("hit");
-  if (event.target.classList.contains(".todo-checkbox")) {
-    const allCheckboxes = document.querySelectorAll(".todo-checkbox");
-    const checkedContent = document.getElementById("selected-item");
+document.addEventListener('click', function (event) {
+  const allCheckboxes = document.querySelectorAll('todo-checkbox');
+  const selectedTask = document.getElementById('selected-item');
+
+  // check if event target is a checkboxd with the "todo-checkbox" class
+  if (event.target.classList.contains('todo-checkbox')) {
+    const index = parseInt(event.target.dataset.index, 10); //const index = event.target.id.split("-")[1];
+
     if (event.target.checked) {
-      const index = event.target.id.split("-")[1];
-      const element = todo[index];
+      selectedTaskIndex = index; // store the index of the selected task globally
+      const task = todo[index];
+
+      // display the selected task in the current activity
+      selectedTask.textContent = task.task; //`${task.task} (${task.time} seconds)`;
+
       // disable all other checkboxes to prevent overlap
       allCheckboxes.forEach((checkbox) => {
         if (checkbox !== event.target) {
           checkbox.disabled = true;
         }
       });
-      checkedContent.innerText = element.task + " " + element.time;
-      setTimeout(() => {
-        displayTime(element.time, checkedContent, () => {
-          completeTask(element.task, element.time, index);
-        });
-        // Call any other functions or perform additional actions here
-      }, 1000); // 1000 milliseconds = 1 second
+
+      // start the timer for the selected task
+      // displayTime(task.time, selectedTask, () => {
+      //   // completeTask(element.task, element.time, index);
+      //   // Call any other functions or perform additional actions here
+      // });
+
+      // setTimeout(() => {
+      //   displayTime(element.time, checkedContent, () => {
+      //     completeTask(element.task, element.time, index);
+      //   });
+      //   // Call any other functions or perform additional actions here
+      // }, 1000); // 1000 milliseconds = 1 second
     } else {
-      checkedContent.textContent = " ";
-      allCheckboxes.forEach((checkbox) => {
-        checkbox.disabled = false;
-      });
+      selectedTaskIndex = null; // clear the selected task index
+      selectedTask.textContent = 'No task selected';
+      // allCheckboxes.forEach((checkbox) => {
+      //   checkbox.disabled = false;
+      // });
     }
   } else {
-    console.log("not hit");
+    console.log('not hit');
+    selectedTask.textContent = 'No task yet :(';
   }
 });
 
@@ -101,45 +133,56 @@ function addTask() {
     saveToLocalStorage();
 
     // clear the input fields
-    taskInput.value = "";
-    hoursInput.value = "";
-    minutesInput.value = "";
-    secondsInput.value = "";
+    taskInput.value = '';
+    hoursInput.value = '';
+    minutesInput.value = '';
+    secondsInput.value = '';
 
     // update the UI
     displayTasks();
   } else {
     console.log(taskText, taskTime);
-    alert("Enter a valid task and timer.");
+    alert('Enter a valid task and timer.');
   }
+}
+
+function completeTask(index) {
+  const finishedTask = todo.splice(index, 1)[0]; // remove the task from the todo list (and get it)
+  done.push(finishedTask); // add the task to the done list
+
+  saveToLocalStorage(); // save the updated todo and done lists
+
+  displayTasks(); // update the UI
+  displayCompletedTasks(); // update the UI
 }
 
 // TODO Increase efficiency later
 function displayTasks() {
-  todoList.innerHTML = ""; // Clear the list
+  todoList.innerHTML = ''; // Clear the list
 
   todo.forEach((item, index) => {
-    const li = document.createElement("li");
-    li.classList.add("todo-container");
+    const li = document.createElement('li');
+    li.classList.add('todo-container');
 
     // create checkbox
-    const checkbox = document.createElement("input");
-    checkbox.type = "checkbox";
-    checkbox.classList.add("todo-checkbox");
+    const checkbox = document.createElement('input');
+    checkbox.type = 'checkbox';
+    checkbox.classList.add('todo-checkbox');
+    checkbox.dataset.index = index; // stores the index of the task in the dataset
     checkbox.checked = item.disabled;
-    checkbox.addEventListener("change", function () {
-      toggleTask(index);
-    });
+    // checkbox.addEventListener("change", function () {
+    //   toggleTask(index);
+    // });
 
     // create task text element
-    const taskSpan = document.createElement("span");
-    taskSpan.classList.add("task");
+    const taskSpan = document.createElement('span');
+    taskSpan.classList.add('task');
     taskSpan.innerText = item.task;
 
     // create time text element
-    const timeSpan = document.createElement("span");
-    timeSpan.classList.add("time");
-    timeSpan.innerText = `${item.time} seconds`;
+    const timeSpan = document.createElement('span');
+    timeSpan.classList.add('time');
+    timeSpan.innerText = `${item.time} sec`;
 
     // append elements to the <li> element
     li.appendChild(checkbox);
@@ -148,6 +191,35 @@ function displayTasks() {
 
     // append the <li> element to the todoList
     todoList.appendChild(li);
+  });
+
+  updateTaskCount();
+}
+
+function displayCompletedTasks() {
+  const completedContainer = document.querySelector('.to-done-list'); // Select the container
+  completedList.innerHTML = ''; // Clear the completed list
+
+  done.forEach((item) => {
+    const li = document.createElement('li');
+    li.classList.add('completed-container');
+
+    // create task text element
+    const taskSpan = document.createElement('span');
+    taskSpan.classList.add('task');
+    taskSpan.innerText = item.task;
+
+    // create time text element
+    const timeSpan = document.createElement('span');
+    timeSpan.classList.add('time');
+    timeSpan.innerText = `${item.time} sec`;
+
+    // append elements to the <li> element
+    li.appendChild(taskSpan);
+    li.appendChild(timeSpan);
+
+    // append the <li> element to the todoList
+    completedList.appendChild(li);
   });
 
   updateTaskCount();
@@ -165,7 +237,8 @@ function updateTaskCount() {
 
 function saveToLocalStorage() {
   // save the todo array to local storage
-  localStorage.setItem("todo", JSON.stringify(todo));
+  localStorage.setItem('todo', JSON.stringify(todo));
+  localStorage.setItem('done', JSON.stringify(done));
 }
 
 // THIS IS ALL YOUR OLD CODE
