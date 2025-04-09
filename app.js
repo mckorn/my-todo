@@ -4,6 +4,8 @@ let done = JSON.parse(localStorage.getItem('done')) || [];
 
 let selectedTaskIndex = null;
 
+let countDown; // to store the timer interval (so we can stop it later)
+
 // DOM elements
 const todoList = document.getElementById('taskList');
 const completedList = document.getElementById('completedList');
@@ -11,16 +13,22 @@ const timerInput = document.getElementById('timerInput');
 const addTaskButton = document.getElementById('addTask');
 const taskCount = document.getElementById('count');
 
-const openPopupBtn = document.getElementById('openPopup');
-const popup = document.getElementById('popup');
+const openPopupBtn = document.getElementById('openPopupBtn');
+const addTaskPopup = document.getElementById('addTaskPopup');
 const closePopupBtn = document.getElementById('closeBtn');
-const addTaskBtn = document.getElementById('addTaskPopup');
+const addTaskBtn = document.getElementById('addTaskBtn');
 const taskInput = document.getElementById('task');
 const hoursInput = document.getElementById('hours');
 const minutesInput = document.getElementById('minutes');
 const secondsInput = document.getElementById('seconds');
 
-const finishTaskBtn = document.getElementById('finishTask');
+const startTaskBtn = document.getElementById('startTaskBtn');
+const startTaskPopup = document.getElementById('startTaskPopup');
+const finishTBtn = document.getElementById('finishTBtn');
+const startTaskText = document.getElementById('selected-task');
+const startTaskTime = document.getElementById('task-time');
+
+const finishTaskBtn = document.getElementById('finishTaskBtn');
 
 const date = document.getElementById('date');
 
@@ -34,36 +42,56 @@ document.addEventListener('DOMContentLoaded', function () {
   const formattedDate = currentDate.toLocaleDateString('en-US', options);
   date.textContent = formattedDate;
 
+  // display all current tasks
+  displayTasks();
+  displayCompletedTasks();
+
   // open the popup when the add task button is clicked
   openPopupBtn.addEventListener('click', function () {
-    popup.style.display = 'block';
-  });
-
-  // close the popup when the close button is clicked
-  closePopupBtn.addEventListener('click', function () {
-    popup.style.display = 'none';
+    addTaskPopup.style.display = 'block';
   });
 
   // add task from popup
   addTaskBtn.addEventListener('click', function () {
     addTask();
-    popup.style.display = 'none';
+    addTaskPopup.style.display = 'none';
+  });
+
+  // start task
+  startTaskBtn.addEventListener('click', function () {
+    if (selectedTaskIndex !== null) {
+      startTaskPopup.style.display = 'block';
+      startTask(selectedTaskIndex);
+      // selectedTaskIndex = null;
+      // document.getElementById('selected-item').textContent = 'No task selected';
+    } else {
+      alert('No task selected');
+    }
   });
 
   // complete task
   finishTaskBtn.addEventListener('click', function () {
     if (selectedTaskIndex !== null) {
       completeTask(selectedTaskIndex);
-      selectedTaskIndex = null;
-      document.getElementById('selected-item').textContent = 'No task selected';
+      // selectedTaskIndex = null;
+      // document.getElementById('selected-item').textContent = 'No task selected';
     } else {
       alert('No task selected');
     }
   });
 });
 
-// TODO next is  make the name pop up in the current activity
-//when a checkbox is clicked it will run the time and then add it to the done list
+// close the popup when 'x' is clicked
+document.addEventListener('click', function (event) {
+  // check if the clicked element has the close class in it
+  if (event.target.classList.contains('close')) {
+    // find the parent element and hide the popup
+    const parentPopup = event.target.closest('.popup');
+    if (parentPopup) parentPopup.style.display = 'none';
+  }
+});
+
+// todo list checkboxes
 document.addEventListener('click', function (event) {
   const allCheckboxes = document.querySelectorAll('todo-checkbox');
   const selectedTask = document.getElementById('selected-item');
@@ -144,6 +172,29 @@ function addTask() {
     console.log(taskText, taskTime);
     alert('Enter a valid task and timer.');
   }
+}
+
+function startTask(index) {
+  // display task and time in popup
+  const task = todo[index];
+
+  startTaskText.innerHTML = task.task;
+  startTaskTime.innerHTML = formatTime(task.time);
+
+  // event listener for starting timer
+  finishTBtn.addEventListener('click', function handleS() {
+    // hide the popup
+    startTaskPopup.style.display = 'none';
+
+    // start the timer
+    displayTimeInPopup(task.time, task.task, function () {
+      console.log('everything went swimmingly *fingers crossed*');
+      // completeTask(index); // complete the task after time is up
+    });
+
+    // Remove the event listener after it's used to prevent duplicate listeners
+    finishTBtn.removeEventListener('click', handleS);
+  });
 }
 
 function completeTask(index) {
@@ -241,229 +292,66 @@ function saveToLocalStorage() {
   localStorage.setItem('done', JSON.stringify(done));
 }
 
-// THIS IS ALL YOUR OLD CODE
-// // retrieve todo from local storage or initialize an empty array
+// format the time for display
+function formatTime(totalSec) {
+  const hours = Math.floor(totalSec / 3600);
+  const minutes = Math.floor((totalSec % 3600) / 60);
+  const seconds = totalSec % 60;
 
-// // todo = to the local storage, if that dosen't exist them make an empty array
-// let todo = JSON.parse(localStorage.getItem("todo")) || [];
-// let done = JSON.parse(localStorage.getItem("done")) || [];
+  return `${hours}:${minutes}:${seconds}`;
+}
 
-// const todoInput = document.getElementById("taskInput");
-// const timerInput = document.getElementById("timerInput");
-// const todoCount = document.getElementById("todoCount");
-// const todoList = document.getElementById("taskList");
-// const doneList = document.getElementById("completedList");
+// displays the time and counts it down
+function displayTimeInPopup(time, task, callback) {
+  const timerPopup = document.getElementById('timerPopup');
+  const taskName = document.getElementById('taskName');
+  const startTimerBtn = document.getElementById('startTimerBtn');
+  const stopTimerBtn = document.getElementById('stopTimerBtn');
+  const finishTimerBtn = document.getElementById('finishTimerBtn');
+  const pauseTimerBtn = document.getElementById('pauseTimerBtn');
+  const timerDisplay = document.getElementById('timerDisplay');
 
-// // const t = document.getElementById("task");
-// // const h = document.getElementById("hours");
-// // const m = document.getElementById("minutes");
-// // const s = document.getElementById("seconds");
+  // set the task name and display the popup
+  timerPopup.style.display = 'block';
+  taskName.innerText = `${task}`;
 
-// const addButton = document.querySelector(".btn");
-// const deleteButton = document.getElementById("deleteBttn");
+  // clear any existing timers
+  clearInterval(countDown);
 
-// // initialize
-// document.addEventListener("DOMContentLoaded", function () {
-//   // when something happens the function will run
-//   const addTaskBtn = document.getElementById("addTask");
-//   const popup = document.getElementById("popup");
-//   const closeButton = document.querySelector(".close");
+  // start the timer
+  let timer = time;
 
-//   addTaskBtn.addEventListener("click", function () {
-//     popup.style.display = "block"; // Show the popup
-//   });
+  countDown = setInterval(function () {
+    const hours = Math.floor(timer / 3600); //parseInt(timer / 3600, 10);
+    const minutes = Math.floor(timer / 60); //parseInt(timer / 60, 10);
+    const seconds = timer % 60; //parseInt(timer % 60, 10);
 
-//   closeButton.addEventListener("click", function () {
-//     popup.style.display = "none"; // Hide the popup
-//   });
+    // minutes = minutes < 10 ? '0' + minutes : minutes;
+    // seconds = seconds < 10 ? '0' + seconds : seconds;
 
-//   // addButton.addEventListener("click", addTask);
+    // display.textContent = minutes + ' : ' + seconds;
+    // Format the time as MM:SS
+    const formattedTime = `${minutes.toString().padStart(2, '0')}:${seconds
+      .toString()
+      .padStart(2, '0')}`;
+    timerDisplay.textContent = formattedTime;
 
-//   //   todoInput.addEventListener('keydown', function (event) {
-//   //     if (event.key === "Enter") {
-//   //       event.preventDefault(); // basically means, don't refresh the page (or empty the input or send to another page)
-//   //       console.log('test');
-//   //         addTask(); // actually I'm not really sure what this does
-//   //     }
-//   //   });
-//   //   deleteButton.addEventListener("click", deleteAllTasks);
-//   displayTasks();
-//   displayCompletedTasks();
-// });
+    if (timer <= 0) {
+      clearInterval(countDown);
+      display.textContent = 'all done!';
+      if (callback) callback();
+    }
+    timer--;
+  }, 1000);
 
-// // when a checkbox is clicked it will run the time and then add it to the done list
-// // document.addEventListener('change', function (event) {
-// //     console.log('hit');
-// //     if (event.target.classList.contains('.todo-checkbox')) {
-// //         const allCheckboxes = document.querySelectorAll('.todo-checkbox');
-// //         const checkedContent = document.getElementById("selected-item");
-// //         if (event.target.checked) {
-// //             const index = event.target.id.split("-")[1];
-// //             const element = todo[index];
-// //             // disable all other checkboxes to prevent overlap
-// //             allCheckboxes.forEach(checkbox => {
-// //                 if (checkbox !== event.target) {
-// //                     checkbox.disabled = true;
-// //                 }
-// //             });
-// //             checkedContent.innerText = element.task + " " + element.time;
-// //             setTimeout(() => {
-// //                 displayTime(element.time, checkedContent, () => {
-// //                     completeTask(element.task, element.time, index);
-// //                 });
-// //                 // Call any other functions or perform additional actions here
-// //             }, 1000); // 1000 milliseconds = 1 second
-// //         } else {
-// //             checkedContent.textContent = " ";
-// //             allCheckboxes.forEach(checkbox => {
-// //                 checkbox.disabled = false;
-// //             });
-// //         }
-// //     } else {
-// //         console.log('not hit');
-// //     }
-// // });
+  stopTimerBtn.addEventListener('click', function () {
+    clearInterval(countDown); // stop the timer
+    timerPopup.style.display = 'none'; // hide the popup
+  });
 
-// function displayTime(timer, display, callback) {
-//   let countDown = setInterval(function () {
-//     minutes = parseInt(timer / 60, 10);
-//     seconds = parseInt(timer % 60, 10);
-
-//     minutes = minutes < 10 ? "0" + minutes : minutes;
-//     seconds = seconds < 10 ? "0" + seconds : seconds;
-
-//     display.textContent = minutes + " : " + seconds;
-//     if (timer < 0) {
-//       clearInterval(countDown);
-//       display.textContent = "all done!";
-//       if (callback) {
-//         callback();
-//       }
-//       // or reset the timer with
-//       // timer = time
-//     }
-//     timer--;
-//   }, 1000);
-//   return true;
-// }
-
-// function addTask() {
-//   // const also means you can't access the values outside of this function
-//   const tasker = taskInput.value.trim();
-//   const timer = parseInt(timerInput.value);
-
-//   if (tasker !== "" && !isNaN(timer)) {
-//     todo.push({
-//       // want to use it as an object (so we can include components)
-//       task: tasker,
-//       time: timer,
-//       disabled: false,
-//       // we have just randomly created these variable values
-//     });
-//     saveToLocalStorage("todo");
-//     // then clear the text after you press enter
-//     todoInput.value = "";
-//     timerInput.value = "";
-//     displayTasks();
-//   } else {
-//     alert("Enter a valid task and timer.");
-//     return;
-//   }
-
-//   // if (!task || isNaN(timer)) { // POSSIBLY SHOULD USE newTask !== ""
-//   //   alert('Enter a valid task and timer.')
-//   //   return;
-//   // }
-// }
-
-// function completeTask(task, time, element) {
-//   // TODO allow users to save the amount of time it actually took them (instead of the expected time)
-//   const finishedTask = document.createElement("li");
-//   finishedTask.innerText = task + " " + time;
-//   done.push({
-//     // want to use it as an object (so we can include components)
-//     task: task,
-//     time: time,
-//   });
-
-//   saveToLocalStorage("done");
-
-//   // remove the task element from the current list
-//   todo.splice(element, 1);
-//   saveToLocalStorage("todo");
-
-//   displayCompletedTasks();
-//   displayTasks();
-// }
-
-// function deleteAllTasks() {
-//   todo = []; // Clear the todo array
-//   saveToLocalStorage("todo"); // Update local storage with empty array
-//   displayTasks(); // Update the UI to reflect the changes
-// }
-
-// function displayCompletedTasks() {
-//   doneList.innerHTML = "";
-//   done.forEach((item, index) => {
-//     const p = document.createElement("p");
-//     p.innerHTML = `
-//         <div class="todo-container">
-//         <span style="color: white;"> ${index + 1}. &nbsp</span>
-//         <span id="done-${index}" class="task">${item.task}
-//         </span>
-//         </div>
-//       `;
-//     doneList.appendChild(p);
-//   });
-//   updateTaskCount();
-// }
-
-// // function displayCompletedTasks() {
-// //     // doneList.innerHTML = "";
-// //     const complete = document.getElementById("completedList");
-// //     complete.innerHTML = ""; // clear the list to give the most up to date list
-
-// //     done.forEach((item, index) => {
-// //         const li = document.createElement("li");
-// //         li.textContent = `${item.text} (${item.time})`;
-// //         completedList.appendChild(li);
-// //     });
-// //     updateTaskCount();
-// // }
-
-// document.getElementById("setTimer").addEventListener("click", function () {
-//   // Get the values from the input fields
-//   let task = document.getElementById("task").value;
-//   let hours = document.getElementById("hours").value || 0;
-//   let minutes = document.getElementById("minutes").value || 0;
-//   let seconds = document.getElementById("seconds").value || 0;
-
-//   // Format the time and set it to the input box
-//   // let formattedTime = `${hours.padStart(2, '0')}:${minutes.padStart(2, '0')}:${seconds.padStart(2, '0')}`;
-//   let formattedTime = `${hours}:${minutes}:${seconds}`;
-//   // document.getElementById("countdown").value = formattedTime;
-//   console.log("formattedTime:" + formattedTime); // Log the formatted time to the console
-//   console.log("task:" + task);
-
-//   // Hide the popup
-//   document.getElementById("popup").style.display = "none";
-
-//   // add task
-//   if (task !== "") {
-//     todo.push({
-//       // want to use it as an object (so we can include components)
-//       task: task,
-//       time: seconds,
-//       disabled: false,
-//       // we have just randomly created these variable values
-//     });
-//     saveToLocalStorage("todo");
-//     // then clear the text after you press enter
-//     // todoInput.value = "";
-//     // timerInput.value = "";
-//     displayTasks();
-//   } else {
-//     alert("Enter a valid task and timer.");
-//     return;
-//   }
-// });
+  finishTimerBtn.addEventListener('click', function () {
+    clearInterval(countDown); // stop the timer
+    timerPopup.style.display = 'none'; // hide the popup
+    completeTask(selectedTaskIndex); // complete the task
+  });
+}
