@@ -323,18 +323,19 @@ function displayTimeInPopup(time, task, callback) {
 
   countDown = setInterval(function () {
     const hours = Math.floor(timer / 3600); //parseInt(timer / 3600, 10);
-    const minutes = Math.floor(timer / 60); //parseInt(timer / 60, 10);
+    const minutes = Math.floor(timer / 60) % 60; //parseInt(timer / 60, 10);
     const seconds = timer % 60; //parseInt(timer % 60, 10);
 
+    // TODO implement hours and test when going from 1 hours to 59 minutes
+    // Format the time as MM:SS
+    const formattedTime = `${hours.toString().padStart(2, '0')}:${minutes
+      .toString()
+      .padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+    timerDisplay.textContent = formattedTime;
+    // old code ---~v
     // minutes = minutes < 10 ? '0' + minutes : minutes;
     // seconds = seconds < 10 ? '0' + seconds : seconds;
-
     // display.textContent = minutes + ' : ' + seconds;
-    // Format the time as MM:SS
-    const formattedTime = `${minutes.toString().padStart(2, '0')}:${seconds
-      .toString()
-      .padStart(2, '0')}`;
-    timerDisplay.textContent = formattedTime;
 
     if (timer <= 0) {
       clearInterval(countDown);
