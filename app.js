@@ -233,7 +233,7 @@ function displayTasks() {
     // create time text element
     const timeSpan = document.createElement('span');
     timeSpan.classList.add('time');
-    timeSpan.innerText = `${item.time} sec`;
+    timeSpan.innerText = formatTime(item.time);
 
     // append elements to the <li> element
     li.appendChild(checkbox);
@@ -263,7 +263,7 @@ function displayCompletedTasks() {
     // create time text element
     const timeSpan = document.createElement('span');
     timeSpan.classList.add('time');
-    timeSpan.innerText = `${item.time} sec`;
+    timeSpan.innerText = formatTime(item.time);
 
     // append elements to the <li> element
     li.appendChild(taskSpan);
@@ -298,7 +298,19 @@ function formatTime(totalSec) {
   const minutes = Math.floor((totalSec % 3600) / 60);
   const seconds = totalSec % 60;
 
-  return `${hours}:${minutes}:${seconds}`;
+  let formattedTime = '';
+
+  if (hours > 0) {
+    formattedTime += `${hours.toString().padStart(1, '0')}:`;
+  }
+  if (minutes >= 0) {
+    formattedTime += `${minutes.toString().padStart(2, '0')}`;
+  }
+  if (seconds >= 0 || formattedTime === '') {
+    formattedTime += `:${seconds.toString().padStart(2, '0')}`;
+  }
+
+  return formattedTime.trim();
 }
 
 // displays the time and counts it down

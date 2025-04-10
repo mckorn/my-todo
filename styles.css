@@ -307,9 +307,35 @@ button#finishTBtn:hover {
 } */
 
 .list-headers {
+  margin: 0;
   padding-left: 10px;
   font-size: 20px;
   font-weight: 600;
+}
+
+.title-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+  width: 100%;
+}
+
+.list-button {
+  border: none;
+  background-color: transparent;
+  color: lightgrey;
+  padding: 5px 10px;
+  /* text-align: center;
+  text-decoration: none;
+  display: inline-block; */
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.list-button:hover {
+  color: white;
 }
 
 .scrollable-list {
