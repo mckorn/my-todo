@@ -10,7 +10,7 @@
 }
 
 .grandstander-font {
-  font-family: "Grandstander";
+  font-family: 'Grandstander';
   font-optical-sizing: auto;
   font-weight: 100;
   font-style: normal;
@@ -21,8 +21,8 @@ body {
   flex-direction: column;
   margin: 0;
   min-height: 100vh;
-  font-family: "Grandstander";
-  background-image: url("assets/background-sky.png");
+  font-family: 'Grandstander', 'Gochi Hand', cursive !important;
+  background-image: url('assets/background-sky.png');
   background-size: 100% 100%;
   background-repeat: no-repeat;
   background-position: center;
@@ -77,20 +77,23 @@ main {
 }
 
 .top-row {
-  background-color: burlywood;
+  background-color: #fdc4aa;
   display: flex;
-  width: 100%;
+  justify-content: space-between;
   align-items: stretch;
+  gap: 20px;
+  width: fit-content;
+
   margin-bottom: 15px;
   border-radius: 10px;
-  padding: 10px;
+  padding: 10px 15px;
 }
 
 .top-left {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  align-items: flex-start;
+  align-items: center;
   width: 50%;
 }
 
@@ -106,8 +109,8 @@ main {
   display: flex;
   margin: 10px 0;
   width: 100%;
-  align-items: stretch;
-  height: 200px;
+  align-items: center;
+  height: 100px;
 }
 
 .list-container {
@@ -119,7 +122,8 @@ main {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 10px;
+  margin-left: 25px;
+  padding: 10px;
   width: 100%;
 }
 
@@ -130,32 +134,36 @@ main {
   width: 100%;
 }
 
-#openPopup {
-  background-color: #8eca90;
+#openPopupBtn {
+  background-color: transparent;
   border: none;
-  color: white;
-  padding: 10px 20px;
+  color: #fc9362;
+  padding: 5px 15px;
   text-align: center;
   text-decoration: none;
   display: inline-block;
-  font-size: 16px;
-  margin: 4px 2px;
+  font-size: 30px;
   cursor: pointer;
-  border-radius: 4px;
+  border-radius: 12px;
 }
 
-#finishTask {
-  background-color: plum;
+#openPopupBtn:hover {
+  color: #fa7d42;
+}
+
+#startTaskBtn {
+  background-color: pink;
   border: none;
   color: white;
-  padding: 10px 20px;
+  padding: 5px 10px;
   text-align: center;
   text-decoration: none;
   display: inline-block;
   font-size: 16px;
   margin: 4px 2px;
   cursor: pointer;
-  border-radius: 4px;
+  border-radius: 8px;
+  width: 60%;
 }
 
 .popup {
@@ -171,19 +179,90 @@ main {
 }
 
 .popup-content {
+  /* display: flex;
+  flex-direction: column;
+  justify-content: flex-end; */
+  align-items: center;
   background-color: #fff;
   margin: 15% auto;
   padding: 20px;
   border: 1px solid #888;
-  width: 400px;
-  text-align: center;
+  width: fit-content;
+  text-align: space-between;
+  border-radius: 10px;
 }
 
 .popup-input {
   display: flex;
-  flex-direction: row;
-  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 5px;
   padding: 5px;
+}
+
+.popup-input label {
+  font-size: 18px;
+  min-width: 50px; /* Ensure labels align properly */
+}
+
+.popup-input input[type='text'] {
+  width: 200px; /* Set width for the task input */
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.popup-input input[type='number'] {
+  width: 60px; /* Reduce width of number inputs */
+  padding: 5px;
+  text-align: center;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+button#addTaskBtn {
+  background-color: #8eca90;
+  border: none;
+  color: white;
+  padding: 7px 15px;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 5px;
+  margin-left: auto;
+  display: block;
+}
+
+button#addTaskBtn:hover {
+  background-color: #76b87a;
+}
+
+button#finishTaskBtn {
+  background-color: #8eca90;
+  border: none;
+  color: white;
+  padding: 7px 15px;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 5px;
+  margin-left: auto;
+  display: block;
+}
+
+button#finishTaskBtn:hover {
+  background-color: #76b87a;
+}
+
+#timerDisplay {
+  font-size: 2rem;
+  font-weight: bold;
+  margin: 10px 0;
+  text-align: center;
+}
+
+.timer-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
 }
 
 .close {
@@ -212,46 +291,101 @@ main {
   margin-right: 10px;
 }
 
-.list-wrapper {
+/* .list-wrapper {
   flex: 1;
   overflow-y: auto;
-}
+} */
 
 .list-headers {
+  margin: 0;
   padding-left: 10px;
   font-size: 20px;
   font-weight: 600;
+}
+
+.title-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 5px;
+  width: 100%;
+}
+
+.list-button {
+  border: none;
+  background-color: transparent;
+  color: lightgrey;
+  padding: 0px 10px;
+  /* text-align: center;
+  text-decoration: none;
+  display: inline-block; */
+  font-size: 32px;
+  cursor: pointer;
+}
+
+.list-button:hover {
+  color: white;
 }
 
 .scrollable-list {
   max-height: 300px;
   overflow-y: auto;
   border: 1px solid #ccc;
+  /* background-color: #f9f9f9; */
+  border-radius: 8px;
   padding: 10px;
+  list-style-type: none; /* Remove default bullet points */
+  margin: 0;
 }
 
 .to-do-list {
-  flex: 1;
-  overflow-y: auto;
+  /* border: 1px solid #ccc;  */
   border-radius: 10px;
-  background-color: rgb(218, 130, 152);
-  margin: 10px;
+  background-color: rgb(218, 135, 190);
+  padding: 10px;
+
+  width: 300px;
+  min-height: 150px; /* Set a minimum height */
+  max-height: 300px; /* Optional: Limit the maximum height */
+  overflow-y: auto; /* Add a scrollbar if the content exceeds the height */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Optional: Add a subtle shadow */
 }
 
 .to-done-list {
-  flex: 1;
-  overflow-y: auto;
+  /* border: 1px solid #ccc; */
   border-radius: 10px;
   background-color: rgb(161, 130, 218);
-  margin: 10px;
+  padding: 10px;
+
+  width: 300px;
+  min-height: 150px; /* Set a minimum height */
+  max-height: 300px; /* Optional: Limit the maximum height */
+  overflow-y: auto; /* Add a scrollbar if the content exceeds the height */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Optional: Add a subtle shadow */
 }
 
-ul {
-  padding: 0;
-  list-style-type: none;
+.hidden {
+  display: none; /* Completely hide the element */
 }
 
-ol {
-  padding: 0;
-  list-style-type: none;
+.todo-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  margin-bottom: 8px;
+  /* border: 1px solid #ddd;
+  border-radius: 5px; */
+  /* background-color: #fff; */
+}
+
+.completed-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  margin-bottom: 8px;
+  /* border: 1px solid #ddd;
+  border-radius: 5px; */
+  /* background-color: #e6ffe6; */
 }
