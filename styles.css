@@ -21,7 +21,7 @@ body {
   flex-direction: column;
   margin: 0;
   min-height: 100vh;
-  font-family: 'Grandstander';
+  font-family: 'Grandstander', 'Gochi Hand', cursive !important;
   background-image: url('assets/background-sky.png');
   background-size: 100% 100%;
   background-repeat: no-repeat;
@@ -77,7 +77,7 @@ main {
 }
 
 .top-row {
-  background-color: burlywood;
+  background-color: #fdc4aa;
   display: flex;
   justify-content: space-between;
   align-items: stretch;
@@ -86,14 +86,14 @@ main {
 
   margin-bottom: 15px;
   border-radius: 10px;
-  padding: 10px;
+  padding: 10px 15px;
 }
 
 .top-left {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  align-items: flex-start;
+  align-items: center;
   width: 50%;
 }
 
@@ -122,7 +122,8 @@ main {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 10px;
+  margin-left: 25px;
+  padding: 10px;
   width: 100%;
 }
 
@@ -134,46 +135,35 @@ main {
 }
 
 #openPopupBtn {
-  background-color: #8eca90;
+  background-color: transparent;
   border: none;
-  color: white;
+  color: #fc9362;
   padding: 5px 15px;
   text-align: center;
   text-decoration: none;
   display: inline-block;
-  font-size: 26px;
+  font-size: 30px;
   cursor: pointer;
   border-radius: 12px;
+}
+
+#openPopupBtn:hover {
+  color: #fa7d42;
 }
 
 #startTaskBtn {
   background-color: pink;
   border: none;
   color: white;
-  padding: 10px 20px;
+  padding: 5px 10px;
   text-align: center;
   text-decoration: none;
   display: inline-block;
   font-size: 16px;
   margin: 4px 2px;
   cursor: pointer;
-  border-radius: 4px;
-  width: 115px;
-}
-
-#finishTaskBtn {
-  background-color: plum;
-  border: none;
-  color: white;
-  padding: 10px 20px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 16px;
-  margin: 4px 2px;
-  cursor: pointer;
-  border-radius: 4px;
-  width: 115px;
+  border-radius: 8px;
+  width: 60%;
 }
 
 .popup {
@@ -246,7 +236,7 @@ button#addTaskBtn:hover {
   background-color: #76b87a;
 }
 
-button#finishTBtn {
+button#finishTaskBtn {
   background-color: #8eca90;
   border: none;
   color: white;
@@ -258,7 +248,7 @@ button#finishTBtn {
   display: block;
 }
 
-button#finishTBtn:hover {
+button#finishTaskBtn:hover {
   background-color: #76b87a;
 }
 
@@ -317,7 +307,7 @@ button#finishTBtn:hover {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 10px;
+  margin-bottom: 5px;
   width: 100%;
 }
 
@@ -325,13 +315,12 @@ button#finishTBtn:hover {
   border: none;
   background-color: transparent;
   color: lightgrey;
-  padding: 5px 10px;
+  padding: 0px 10px;
   /* text-align: center;
   text-decoration: none;
   display: inline-block; */
-  font-size: 16px;
+  font-size: 32px;
   cursor: pointer;
-  border-radius: 4px;
 }
 
 .list-button:hover {
@@ -352,7 +341,7 @@ button#finishTBtn:hover {
 .to-do-list {
   /* border: 1px solid #ccc;  */
   border-radius: 10px;
-  background-color: rgb(218, 130, 152);
+  background-color: rgb(218, 135, 190);
   padding: 10px;
 
   width: 300px;
@@ -400,13 +389,3 @@ button#finishTBtn:hover {
   border-radius: 5px; */
   /* background-color: #e6ffe6; */
 }
-
-/* ul {
-  padding: 0;
-  list-style-type: none;
-}
-
-ol {
-  padding: 0;
-  list-style-type: none;
-} */

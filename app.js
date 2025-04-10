@@ -9,6 +9,8 @@ let countDown; // to store the timer interval (so we can stop it later)
 // DOM elements
 const todoList = document.getElementById('taskList');
 const completedList = document.getElementById('completedList');
+const clearTodoBtn = document.getElementById('clear-todo');
+const clearDoneBtn = document.getElementById('clear-done');
 const timerInput = document.getElementById('timerInput');
 const addTaskButton = document.getElementById('addTask');
 const taskCount = document.getElementById('count');
@@ -24,11 +26,9 @@ const secondsInput = document.getElementById('seconds');
 
 const startTaskBtn = document.getElementById('startTaskBtn');
 const startTaskPopup = document.getElementById('startTaskPopup');
-const finishTBtn = document.getElementById('finishTBtn');
+const finishTaskBtn = document.getElementById('finishTaskBtn');
 const startTaskText = document.getElementById('selected-task');
 const startTaskTime = document.getElementById('task-time');
-
-const finishTaskBtn = document.getElementById('finishTaskBtn');
 
 const date = document.getElementById('date');
 
@@ -69,14 +69,21 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   });
 
-  // complete task
-  finishTaskBtn.addEventListener('click', function () {
-    if (selectedTaskIndex !== null) {
-      completeTask(selectedTaskIndex);
-      // selectedTaskIndex = null;
-      // document.getElementById('selected-item').textContent = 'No task selected';
+  // clear todo list
+  clearTodoBtn.addEventListener('click', function () {
+    if (clearList(todo)) {
+      displayTasks(); // update the UI
     } else {
-      alert('No task selected');
+      console.error('Failed to clear the todo list.');
+    }
+  });
+
+  // clear done list
+  clearDoneBtn.addEventListener('click', function () {
+    if (clearList(done)) {
+      displayCompletedTasks(); // update the UI
+    } else {
+      console.error('Failed to clear the done list.');
     }
   });
 });
@@ -182,7 +189,7 @@ function startTask(index) {
   startTaskTime.innerHTML = formatTime(task.time);
 
   // event listener for starting timer
-  finishTBtn.addEventListener('click', function handleS() {
+  finishTaskBtn.addEventListener('click', function handleS() {
     // hide the popup
     startTaskPopup.style.display = 'none';
 
@@ -193,7 +200,7 @@ function startTask(index) {
     });
 
     // Remove the event listener after it's used to prevent duplicate listeners
-    finishTBtn.removeEventListener('click', handleS);
+    finishTaskBtn.removeEventListener('click', handleS);
   });
 }
 
@@ -367,4 +374,18 @@ function displayTimeInPopup(time, task, callback) {
     timerPopup.style.display = 'none'; // hide the popup
     completeTask(selectedTaskIndex); // complete the task
   });
+}
+
+function clearList(list) {
+  // clear the list from local storage
+  if (list === todo) {
+    todo.length = 0;
+  } else if (list === done) {
+    done.length = 0;
+  } else {
+    return false; // invalid list
+  }
+
+  saveToLocalStorage();
+  return true;
 }

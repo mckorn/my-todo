@@ -9,6 +9,7 @@
       href="https://fonts.googleapis.com/css2?family=Gochi+Hand&family=Grandstander:ital,wght@0,100..900;1,100..900&display=swap"
       rel="stylesheet"
     />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
     <link
       rel="stylesheet"
       href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
@@ -44,7 +45,7 @@
               <div class="to-do-list">
                 <div class="title-row">
                   <p class="list-headers">do list</p>
-                  <!-- <button id="clear-todo" class="list-button">X</button> -->
+                  <button id="clear-todo" class="list-button">&times</button>
                 </div>
                 <ul id="taskList" class="scrollable-list"></ul>
               </div>
@@ -56,7 +57,7 @@
               <div class="to-done-list">
                 <div class="title-row">
                   <p class="list-headers">done list</p>
-                  <button id="clear-done" class="list-button">X</button>
+                  <button id="clear-done" class="list-button">&times</button>
                 </div>
                 <li id="completedList" class="scrollable-list"></li>
               </div>
@@ -65,7 +66,7 @@
           <div>
             <hr class="counter" />
             <div class="counter-container">
-              <p><span id="count"></span> total items</p>
+              <p><span id="count"></span> total item(s)</p>
             </div>
           </div>
           <div class="bottom-row">
@@ -84,9 +85,6 @@
             <div class="col-md-4 text-center">
               <button id="startTaskBtn" class="btn btn-primary">
                 Start Task
-              </button>
-              <button id="finishTaskBtn" class="btn btn-primary">
-                Finish Task
               </button>
             </div>
           </div>
@@ -126,13 +124,13 @@
           <label for="time">time:</label>
           <span id="task-time"></span>
         </div>
-        <button id="finishTBtn">─=≡Σ((( つ•̀ω•́)つ GOOO!!!</button>
+        <button id="finishTaskBtn">─=≡Σ((( つ•̀ω•́)つ GOOO!!!</button>
       </div>
     </div>
 
     <div id="timerPopup" class="popup">
       <div class="popup-content">
-        <span class="close">&times;</span>
+        <span class="close">&times</span>
         <h3 id="taskName"></h3>
         <div class="popup-input">
           <!-- <label for="time">time remaining:</label> -->
@@ -141,9 +139,11 @@
         <div class="timer-buttons">
           <!-- TODO add timer buttons and a "need more time" button -->
           <!-- <button id="startTimerBtn">start</button> -->
-          <button id="stopTimerBtn">stop</button>
-          <button id="finishTimerBtn">finish</button>
-          <!-- <button id="resetTimerBtn">reset</button> -->
+          <button id="pauseTimerBtn" class="fa fa-pause"></button>
+          <button id="stopTimerBtn" class="fa fa-stop"></button>
+          <button id="resetTimerBtn"><strong>&#8634</strong></button>
+          <button id="finishTimerBtn" class="fa fa-eject"></button>
+          
         </div>
       </div>
     </div>
