@@ -109,8 +109,8 @@ main {
   display: flex;
   margin: 10px 0;
   width: 100%;
-  align-items: stretch;
-  height: 200px;
+  align-items: center;
+  height: 100px;
 }
 
 .list-container {

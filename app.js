@@ -26,6 +26,9 @@ const secondsInput = document.getElementById('seconds');
 
 const startTaskBtn = document.getElementById('startTaskBtn');
 const startTaskPopup = document.getElementById('startTaskPopup');
+const pauseTimerBtn = document.getElementById('pauseTimerBtn');
+const stopTimerBtn = document.getElementById('stopTimerBtn');
+const resetTimerBtn = document.getElementById('resetTimerBtn');
 const finishTaskBtn = document.getElementById('finishTaskBtn');
 const startTaskText = document.getElementById('selected-task');
 const startTaskTime = document.getElementById('task-time');
