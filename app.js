@@ -350,9 +350,7 @@ function displayTimeInPopup(time, task, callback) {
 
     // TODO implement hours and test when going from 1 hours to 59 minutes
     // Format the time as MM:SS
-    const formattedTime = `${hours.toString().padStart(2, '0')}:${minutes
-      .toString()
-      .padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+    const formattedTime = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
     timerDisplay.textContent = formattedTime;
     // old code ---~v
     // minutes = minutes < 10 ? '0' + minutes : minutes;
