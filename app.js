@@ -115,7 +115,7 @@ document.addEventListener('click', function (event) {
       const task = todo[index];
 
       // display the selected task in the current activity
-      selectedTask.textContent = task.task; //`${task.task} (${task.time} seconds)`;
+      selectedTask.textContent = task.name; //`${task.task} (${task.time} seconds)`;
 
       // disable all other checkboxes to prevent overlap
       allCheckboxes.forEach((checkbox) => {
@@ -156,15 +156,17 @@ function addTask() {
   const seconds = parseInt(secondsInput.value) || 0;
 
   // Convert time to total seconds
-  const taskTime = hours * 3600 + minutes * 60 + seconds;
+  const totalSeconds = hours * 3600 + minutes * 60 + seconds;
 
   //const taskTime = parseInt(timerInput.value); //(timerInput.value.trim(), 10);
 
-  if (taskText && !isNaN(taskTime)) {
+  if (taskText && !isNaN(totalSeconds)) {
     // add the task to the todo list
     todo.push({
-      task: taskText,
-      time: taskTime,
+      name: taskText,
+      originalTime: totalSeconds,
+      timeRemaining: totalSeconds,
+      status: 'todo',
       disabled: false,
     });
 
@@ -188,23 +190,33 @@ function startTask(index) {
   // display task and time in popup
   const task = todo[index];
 
-  startTaskText.innerHTML = task.task;
-  startTaskTime.innerHTML = formatTime(task.time);
+  startTaskText.innerHTML = task.name;
+  startTaskTime.innerHTML = formatTime(task.timeRemaining);
 
-  // event listener for starting timer
-  finishTaskBtn.addEventListener('click', function handleS() {
-    // hide the popup
+  // use .onclick instead of addEventListener to prevent multiple listeners
+  finishTaskBtn.onclick = function () {
     startTaskPopup.style.display = 'none';
 
-    // start the timer
-    displayTimeInPopup(task.time, task.task, function () {
-      console.log('everything went swimmingly *fingers crossed*');
-      // completeTask(index); // complete the task after time is up
+    // pass the index so the timer knows which task to complete
+    displayTimeInPopup(index, function () {
+      completeTask(index);
     });
+  };
 
-    // Remove the event listener after it's used to prevent duplicate listeners
-    finishTaskBtn.removeEventListener('click', handleS);
-  });
+  // // event listener for starting timer
+  // finishTaskBtn.addEventListener('click', function handleS() {
+  //   // hide the popup
+  //   startTaskPopup.style.display = 'none';
+
+  //   // start the timer
+  //   displayTimeInPopup(task.time, task.task, function () {
+  //     console.log('everything went swimmingly *fingers crossed*');
+  //     // completeTask(index); // complete the task after time is up
+  //   });
+
+  //   // Remove the event listener after it's used to prevent duplicate listeners
+  //   finishTaskBtn.removeEventListener('click', handleS);
+  // });
 }
 
 function completeTask(index) {
@@ -238,12 +250,12 @@ function displayTasks() {
     // create task text element
     const taskSpan = document.createElement('span');
     taskSpan.classList.add('task');
-    taskSpan.innerText = item.task;
+    taskSpan.innerText = item.name;
 
     // create time text element
     const timeSpan = document.createElement('span');
     timeSpan.classList.add('time');
-    timeSpan.innerText = formatTime(item.time);
+    timeSpan.innerText = formatTime(item.timeRemaining);
 
     // append elements to the <li> element
     li.appendChild(checkbox);
@@ -268,12 +280,12 @@ function displayCompletedTasks() {
     // create task text element
     const taskSpan = document.createElement('span');
     taskSpan.classList.add('task');
-    taskSpan.innerText = item.task;
+    taskSpan.innerText = item.name;
 
     // create time text element
     const timeSpan = document.createElement('span');
     timeSpan.classList.add('time');
-    timeSpan.innerText = formatTime(item.time);
+    timeSpan.innerText = formatTime(item.timeRemaining);
 
     // append elements to the <li> element
     li.appendChild(taskSpan);
@@ -324,57 +336,139 @@ function formatTime(totalSec) {
 }
 
 // displays the time and counts it down
-function displayTimeInPopup(time, task, callback) {
+function displayTimeInPopup(index, callback) {
   const timerPopup = document.getElementById('timerPopup');
-  const taskName = document.getElementById('taskName');
-  const startTimerBtn = document.getElementById('startTimerBtn');
+  const taskNameDisplay = document.getElementById('taskName');
+  //const startTimerBtn = document.getElementById('startTimerBtn');
   const stopTimerBtn = document.getElementById('stopTimerBtn');
   const finishTimerBtn = document.getElementById('finishTimerBtn');
   const pauseTimerBtn = document.getElementById('pauseTimerBtn');
+  pauseTimerBtn.className = 'fa fa-pause'; // reset icon to pause
+  pauseTimerBtn.title = 'pause';
+  const addTimeBtn = document.getElementById('addTimeBtn');
   const timerDisplay = document.getElementById('timerDisplay');
+
+  const currentTask = todo[index];
 
   // set the task name and display the popup
   timerPopup.style.display = 'block';
-  taskName.innerText = `${task}`;
+  taskNameDisplay.innerText = `${currentTask.name}`;
 
   // clear any existing timers
   clearInterval(countDown);
 
-  // start the timer
-  let timer = time;
-
   countDown = setInterval(function () {
-    const hours = Math.floor(timer / 3600); //parseInt(timer / 3600, 10);
-    const minutes = Math.floor(timer / 60) % 60; //parseInt(timer / 60, 10);
-    const seconds = timer % 60; //parseInt(timer % 60, 10);
+    currentTask.timeRemaining--;
+
+    // update dislpay
+    timerDisplay.textContent = formatTime(currentTask.timeRemaining);
+
+    if (currentTask.timeRemaining <= 0) {
+      clearInterval(countDown);
+      timerDisplay.textContent = 'all done!';
+      saveToLocalStorage();
+      setTimeout(() => {
+        timerPopup.style.display = 'none';
+        if (callback) callback();
+      }, 1000);
+    }
+
+    // const hours = Math.floor(timer / 3600); //parseInt(timer / 3600, 10);
+    // const minutes = Math.floor(timer / 60) % 60; //parseInt(timer / 60, 10);
+    // const seconds = timer % 60; //parseInt(timer % 60, 10);
 
     // TODO implement hours and test when going from 1 hours to 59 minutes
     // Format the time as MM:SS
-    const formattedTime = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-    timerDisplay.textContent = formattedTime;
+    // const formattedTime = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+    // timerDisplay.textContent = formattedTime;
     // old code ---~v
     // minutes = minutes < 10 ? '0' + minutes : minutes;
     // seconds = seconds < 10 ? '0' + seconds : seconds;
     // display.textContent = minutes + ' : ' + seconds;
 
-    if (timer <= 0) {
-      clearInterval(countDown);
-      display.textContent = 'all done!';
-      if (callback) callback();
-    }
-    timer--;
+    // if (timer <= 0) {
+    //   clearInterval(countDown);
+    //   display.textContent = 'all done!';
+    //   if (callback) callback();
+    // }
+    // timer--;
   }, 1000);
 
-  stopTimerBtn.addEventListener('click', function () {
-    clearInterval(countDown); // stop the timer
-    timerPopup.style.display = 'none'; // hide the popup
-  });
+  // PAUSE: stops interval and saves progress to LocalStorage
+  pauseTimerBtn.onclick = function () {
+    // if timer is running, pause it
+    if (countDown) {
+      clearInterval(countDown);
+      countDown = null;
+      saveToLocalStorage();
+      displayTasks(); // refresh list to show new time
 
-  finishTimerBtn.addEventListener('click', function () {
+      // change icon so the user knows it's paused
+      pauseTimerBtn.className = 'fa fa-play';
+      pauseTimerBtn.title = 'resume';
+    } else {
+      // if timer is paused, resume it
+      pauseTimerBtn.className = 'fa fa-pause';
+      pauseTimerBtn.title = 'pause';
+
+      // restart the interval
+      countDown = setInterval(function () {
+        currentTask.timeRemaining--;
+        timerDisplay.textContent = formatTime(currentTask.timeRemaining);
+        if (currentTask.timeRemaining <= 0) {
+          clearInterval(countDown);
+          timerDisplay.textContent = 'all done!';
+          saveToLocalStorage();
+          setTimeout(() => {
+            timerPopup.style.display = 'none';
+            if (callback) callback();
+          }, 1000);
+        }
+      }, 1000);
+    }
+  };
+
+  // STOP: stops timer and saves progress to LocalStorage
+  stopTimerBtn.onclick = function () {
+    clearInterval(countDown);
+    saveToLocalStorage();
+    timerPopup.style.display = 'none';
+    displayTasks(); // refresh list to show new time
+  };
+
+  // RESET: resets timer to original time and saves to LocalStorage
+  resetTimerBtn.onclick = function () {
+    currentTask.timeRemaining = currentTask.originalTime;
+    timerDisplay.textContent = formatTime(currentTask.timeRemaining);
+    saveToLocalStorage();
+  };
+
+  // ADD TIME: adds 5 minutes to the timer and saves to LocalStorage
+  addTimeBtn.onclick = function () {
+    currentTask.timeRemaining += 300; // add 300 seconds (5 minutes)
+    currentTask.originalTime += 300; // also add to original time for reset
+    timerDisplay.textContent = formatTime(currentTask.timeRemaining);
+    saveToLocalStorage();
+    // optionally: displayTasks(); // refresh list to show new time
+  };
+
+  // FINISH: moves to the completed list immediately
+  finishTimerBtn.onclick = function () {
     clearInterval(countDown); // stop the timer
     timerPopup.style.display = 'none'; // hide the popup
-    completeTask(selectedTaskIndex); // complete the task
-  });
+    completeTask(index); // complete the task
+  };
+
+  // stopTimerBtn.addEventListener('click', function () {
+  //   clearInterval(countDown); // stop the timer
+  //   timerPopup.style.display = 'none'; // hide the popup
+  // });
+
+  // finishTimerBtn.addEventListener('click', function () {
+  //   clearInterval(countDown); // stop the timer
+  //   timerPopup.style.display = 'none'; // hide the popup
+  //   completeTask(selectedTaskIndex); // complete the task
+  // });
 }
 
 function clearList(list) {

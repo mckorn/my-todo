@@ -252,6 +252,19 @@ button#finishTaskBtn:hover {
   background-color: #76b87a;
 }
 
+#addTimeBtn {
+  background-color: #8eca90;
+  border: none;
+  color: white;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+#addTimeBtn:hover {
+  background-color: #76b87a;
+}
+
 #timerDisplay {
   font-size: 2rem;
   font-weight: bold;
