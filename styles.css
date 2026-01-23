@@ -127,13 +127,6 @@ main {
   width: 100%;
 }
 
-.clock-row {
-  display: flex;
-  justify-content: center;
-  margin-bottom: 10px;
-  width: 100%;
-}
-
 #openPopupBtn {
   background-color: transparent;
   border: none;
@@ -401,4 +394,256 @@ button#finishTaskBtn:hover {
   /* border: 1px solid #ddd;
   border-radius: 5px; */
   /* background-color: #e6ffe6; */
+}
+
+/* --- THE CLOCK CONTAINER --- */
+.retro-clock-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.clock-buttons {
+  display: flex;
+  gap: 30px;
+  margin-bottom: -5px; /* Tuck them slightly under the clock body */
+  z-index: 0;
+}
+
+/* THE CURVED START/STOP BUTTONS */
+.btn-nub {
+  background: #1a1a1a;
+  color: #fff;
+  border: none;
+  font-family: 'Grandstander', cursive;
+  font-size: 0.8rem;
+  font-weight: bold;
+  padding: 2px 10px;
+  /* Only round the top-left and top-right */
+  border-radius: 12px 12px 0 0;
+  cursor: pointer;
+  margin: 0 4px;
+  transition: transform 0.1s;
+}
+
+/* Make them feel "clickable" */
+.btn-nub:active {
+  transform: translateY(2px); /* Pushes the button down slightly when clicked */
+}
+
+.clock-body {
+  /* Keep your existing styles and add this background gradient */
+  /* background: linear-gradient(to bottom, #d13636 0%, #b92b2b 100%); */
+  position: relative;
+  overflow: visible; /* Ensure legs show */
+  background-color: #d13636;
+  padding: 1px 4px;
+  border-radius: 60px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+  box-shadow:
+    0 5px 0 #9e2a2a,
+    0 10px 10px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+  border: 4px solid #b92b2b; /* A subtle darker red inner border for depth */
+}
+
+/* --- The New White Inner Face --- */
+.clock-face {
+  background-color: #f19249;
+  display: flex; /* Keep flexbox for the flip cards */
+  align-items: center;
+  gap: 12px; /* Spacing between minutes, divider, and seconds */
+  padding: 5px 20px; /* Padding inside the white area to push the orange cards in */
+  border-radius: 35px; /* Slightly smaller radius than clock-body to fit inside */
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1); /* Soft inner shadow for depth */
+  border: 3px solid #f77f53; /* Very subtle light grey border */
+}
+
+/* --- THE FLIP CARDS --- */
+.flip-unit-container {
+  display: block;
+  position: relative;
+  width: 65px;
+  height: 50px;
+  perspective: 400px; /* Essential for 3D effect */
+  background-color: #fd9a4d;
+  border-radius: 8px;
+  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.1);
+  overflow: hidden; /* Important for the flip effect */
+}
+
+.flip-card {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  text-align: center;
+  line-height: 50px;
+  font-family: 'Courier New', Courier, monospace; /* Monospaced looks digital */
+  font-weight: bold;
+  font-size: 2rem;
+  color: #333;
+}
+
+/* Base style for all flap halves */
+.flip-card div {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 50%;
+  overflow: hidden;
+  background-color: #fca460;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+}
+
+/* The 4 parts of a flip card */
+.flip-card .top,
+.flip-card .bottom,
+.flip-card .top-back,
+.flip-card .bottom-back {
+  display: block;
+  height: 50%;
+  width: 100%;
+  position: absolute;
+  overflow: hidden;
+  backface-visibility: hidden; /* Hides the back when flipping */
+}
+
+/* TOP HALF */
+.flip-card .top,
+.flip-card .top-back {
+  top: 0;
+  border-radius: 10px 10px 0 0;
+  z-index: 3;
+  transform-origin: bottom;
+  border-bottom: 0.5px solid rgba(0, 0, 0, 0.2);
+}
+
+/* BOTTOM HALF */
+.flip-card .bottom,
+.flip-card .bottom-back {
+  bottom: 0;
+  border-radius: 0 0 10px 10px;
+  z-index: 2;
+  transform-origin: top;
+}
+
+/* Positioning text inside the halves */
+.flip-card .top-back span,
+.flip-card .bottom-back span,
+.flip-card .top,
+.flip-card .bottom {
+  /* No extra styling needed, inherited from parent */
+}
+
+/* --- THE ANIMATION KEYFRAMES --- */
+.flip-card .top-back {
+  transform: rotateX(180deg); /* Start hidden */
+  z-index: 2;
+}
+
+.flip-card .bottom-back {
+  z-index: 1;
+}
+
+.flip-card .bottom {
+  z-index: 0;
+}
+
+.flip-card .top {
+  z-index: 3;
+}
+
+/* Triggers animation */
+.flip-card.flipper .top {
+  animation: flip-top 0.4s ease-in forwards;
+}
+.flip-card.flipper .top-back {
+  animation: flip-top-back 0.4s ease-in forwards;
+}
+.flip-card.flipper .bottom {
+  animation: flip-bottom 0.4s ease-in forwards;
+}
+
+@keyframes flip-top {
+  100% {
+    transform: rotateX(-180deg);
+  }
+}
+@keyframes flip-top-back {
+  100% {
+    transform: rotateX(0deg);
+  }
+}
+@keyframes flip-bottom {
+  0% {
+    opacity: 1;
+  }
+  99% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+.clock-divider {
+  width: 2.5px;
+  height: 35px;
+  background-color: rgba(0, 0, 0, 0.15);
+  border-radius: 1px;
+}
+
+/* Aligning the text so only half is visible in each section */
+.flip-card .top span,
+.flip-card .top-back span {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 200%; /* Make text double height of container */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.flip-card .bottom span,
+.flip-card .bottom-back span {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 200%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Create the legs using pseudo-elements */
+.clock-body::before,
+.clock-body::after {
+  content: '';
+  position: absolute;
+  bottom: -11px; /* Stick them out the bottom */
+  width: 5px;
+  height: 10px;
+  background-color: #470909; /* Darker red for depth */
+  border-radius: 2px;
+  transform-origin: top;
+  z-index: -1; /* Place them behind the body */
+}
+
+/* Position one on the left and one on the right */
+.clock-body::before {
+  left: 15px;
+  transform: skewX(-20deg);
+}
+
+.clock-body::after {
+  right: 15px;
+  transform: skewX(20deg);
 }

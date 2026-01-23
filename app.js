@@ -484,3 +484,52 @@ function clearList(list) {
   saveToLocalStorage();
   return true;
 }
+
+// Function to animate a specific card (minutes or seconds)
+function updateFlipCard(id, newValue) {
+  const card = document.getElementById(id);
+  // Target the spans specifically
+  const spans = card.querySelectorAll('span');
+
+  // If the value is the same, stop
+  if (spans[0].innerText === newValue) return;
+
+  // PHASE 1: Only update the "Falling Leaf" back side
+  // This is what we see as the card rotates toward us
+  card.querySelector('.top-back span').innerText = newValue;
+
+  card.classList.add('flipper');
+
+  // PHASE 2: The "Mid-Air Swap" (at 150ms-200ms)
+  // We change the landing pad and the static plates while the leaf is vertical
+  setTimeout(() => {
+    // Update the "Landing Pad" (Bottom-Back)
+    card.querySelector('.bottom-back span').innerText = newValue;
+
+    // Update the static "Front" plates
+    card.querySelector('.top span').innerText = newValue;
+    card.querySelector('.bottom span').innerText = newValue;
+  }, 250); // Trigger this slightly before the 300ms mark for a seamless transition
+
+  // PHASE 3: Reset for the next second
+  setTimeout(() => {
+    card.classList.remove('flipper');
+  }, 500);
+}
+
+function runTestClock() {
+  setInterval(() => {
+    const now = new Date();
+
+    // Get current minutes and seconds
+    const mins = now.getMinutes().toString().padStart(2, '0');
+    const secs = now.getSeconds().toString().padStart(2, '0');
+
+    // Trigger the flip animations
+    updateFlipCard('flip-min', mins);
+    updateFlipCard('flip-sec', secs);
+  }, 1000);
+}
+
+// Call it immediately to start the test
+runTestClock();
